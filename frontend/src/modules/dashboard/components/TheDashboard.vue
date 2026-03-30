@@ -6,6 +6,7 @@
   import RevenueSchedule from './RevenueSchedule.vue'
   import FacilitiesDetails from './FacilitiesDetails.vue'
   import LastTransactions from './LastTransactions.vue'
+  import RepairRequests from './RepairRequests.vue'
 </script>
 
 <template>
@@ -42,6 +43,7 @@
     </div>
     <div class="flex gap-3 mt-8">
       <LastTransactions class="basis-23/50" />
+      <RepairRequests class="basis-27/50" />
     </div>
   </div>
 </template>
