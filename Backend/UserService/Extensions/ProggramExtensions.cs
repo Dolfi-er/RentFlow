@@ -1,5 +1,7 @@
 using System.Text.Json;
 using Backend.Models;
+using Backend.Repositories;
+using Backend.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -25,6 +27,8 @@ public static class ProgrammExtensions
 
         services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
         services.AddEndpointsApiExplorer();
+        services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IRoleService, RoleService>();
         services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo
