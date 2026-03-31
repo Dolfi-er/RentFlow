@@ -12,6 +12,7 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
         
         builder.HasOne(rt => rt.UserEntity)
             .WithOne(u => u.RefreshTokenEntity)
-            .HasForeignKey<RefreshToken>(rt => rt.Id);
+            .HasForeignKey<RefreshToken>(rt => rt.Id)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

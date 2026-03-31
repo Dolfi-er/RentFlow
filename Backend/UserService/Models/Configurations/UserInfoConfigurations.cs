@@ -12,6 +12,7 @@ public class UserInfoConfiguration : IEntityTypeConfiguration<UserInfo>
         
         builder.HasOne(ui => ui.UserEntity)
             .WithOne(u => u.UserInfoEntity)
-            .HasForeignKey<UserInfo>(ui => ui.Id);
+            .HasForeignKey<UserInfo>(ui => ui.Id)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

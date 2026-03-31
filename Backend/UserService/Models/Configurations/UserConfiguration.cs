@@ -12,7 +12,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasOne(u => u.RoleEntity)
             .WithMany(r => r.UsersEntities)
-            .HasForeignKey(u => u.RoleId);
+            .HasForeignKey(u => u.RoleId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(u => u.RefreshTokenEntity)
             .WithOne(rt => rt.UserEntity);

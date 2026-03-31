@@ -15,6 +15,14 @@ public class ApplicationConfiguration : IEntityTypeConfiguration<Application>
             .HasForeignKey(a => a.MessageId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Property(a => a.DocumentId)
+               .HasConversion(
+                    v => v.ToString(),
+                    v => MongoDB.Bson.ObjectId.Parse(v)
+               )
+               .HasMaxLength(24)
+               .IsRequired();
+               
         builder.HasQueryFilter(a => !a.MessageEntity!.IsDeleted);
     }
 }
