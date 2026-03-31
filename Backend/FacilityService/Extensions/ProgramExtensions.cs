@@ -28,8 +28,10 @@ public static class ProgrammExtensions
 
         services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
 
+        services.AddScoped<IStatusRepository, StatusRepository>();
         services.AddScoped<ITypeRepository, TypeRepository>();
 
+        services.AddScoped<IStatusService, StatusService>();
         services.AddScoped<ITypeService, TypeService>();
 
         services.AddEndpointsApiExplorer();

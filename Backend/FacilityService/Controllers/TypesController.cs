@@ -1,11 +1,11 @@
 using FacilityService.DTOs.TypeDTOs;
 using FacilityService.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FacilityService.Controllers;
 
 [ApiController]
+[Route("types")]
 public class TypesController : ControllerBase
 {
     private readonly ITypeService _typeService;
@@ -15,7 +15,7 @@ public class TypesController : ControllerBase
         _typeService = typeService;
     }
 
-    [HttpGet("all")]
+    [HttpGet("")]
     public async Task<IActionResult> GetAllAsync()
     {
         return Ok(await _typeService.GetAllAsync());
@@ -31,6 +31,6 @@ public class TypesController : ControllerBase
     public async Task<IActionResult> RemoveAsync([FromRoute] Guid id)
     {
         await _typeService.RemoveAsync(id);
-        return Ok();
+        return NoContent();
     }
 }
