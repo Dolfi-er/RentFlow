@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import pinia from './services/pinia'
+import router from './router/router'
 
 async function enableMocking() {
   if (import.meta.env.VITE_API_MOCKING === 'true') {
@@ -11,5 +12,5 @@ async function enableMocking() {
 }
 
 enableMocking().then(() => {
-  createApp(App).use(pinia).mount('#app')
+  createApp(App).use(pinia).use(router).mount('#app')
 })

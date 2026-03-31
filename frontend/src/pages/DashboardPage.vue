@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <div>
+  <div class="flex-1">
     <HeadText title="Здраствуйте, Иван!" subtitle="Добро пожаловать в RentFlow!" />
     <TheDashboard />
   </div>

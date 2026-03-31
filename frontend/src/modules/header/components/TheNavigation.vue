@@ -8,7 +8,7 @@
   <nav class="bg-white rounded-[54px] px-2 pt-1.5 pb-4 mt-9 flex flex-col items-center gap-32.5">
     <NavigationList />
     <NavigationItem>
-      <QuestionLogo />
+      <QuestionLogo :is-active="false" />
     </NavigationItem>
   </nav>
 </template>
