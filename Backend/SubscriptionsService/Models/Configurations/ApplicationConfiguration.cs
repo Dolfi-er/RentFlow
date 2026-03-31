@@ -1,6 +1,6 @@
-using FacilityService.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SubscriptionsService.Models.Entities;
 
 namespace FacilityService.Models.Configurations;
 

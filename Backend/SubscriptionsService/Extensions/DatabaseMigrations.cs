@@ -1,7 +1,7 @@
 using FacilityService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FacilityService.Extensions;
+namespace SubscriptionsService.Extensions;
 
 public static class DatabaseMigration
 {

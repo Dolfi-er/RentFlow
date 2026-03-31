@@ -2,7 +2,7 @@ using FacilityService.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Backend.Models.Configurations;
+namespace FacilityService.Models.Configurations;
 
 public class TypeConfiguration : IEntityTypeConfiguration<TypeEntity>
 {

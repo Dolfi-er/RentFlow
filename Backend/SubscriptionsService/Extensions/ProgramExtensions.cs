@@ -3,7 +3,7 @@ using FacilityService.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
-namespace FacilityService.Extensions;
+namespace SubscriptionsService.Extensions;
 
 public static class ProgrammExtensions
 {

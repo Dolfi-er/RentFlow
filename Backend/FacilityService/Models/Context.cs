@@ -1,8 +1,8 @@
-using Backend.Models.Configurations;
+using FacilityService.Models.Configurations;
 using FacilityService.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Models;
+namespace FacilityService.Models;
 
 public class Context : DbContext
 {
