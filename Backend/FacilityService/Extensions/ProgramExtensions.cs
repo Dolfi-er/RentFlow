@@ -1,5 +1,7 @@
 using System.Text.Json;
 using FacilityService.Models;
+using FacilityService.Repositories;
+using FacilityService.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -26,6 +28,10 @@ public static class ProgrammExtensions
 
         services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
 
+        services.AddScoped<ITypeRepository, TypeRepository>();
+
+        services.AddScoped<ITypeService, TypeService>();
+
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
@@ -44,7 +50,6 @@ public static class ProgrammExtensions
         app.UseSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", " v1");
-            c.RoutePrefix = string.Empty; 
         });
 
         app.ApplyMigrations();
