@@ -1,5 +1,8 @@
 <script setup lang="ts">
+  import { formatPrice } from '@/shared/utils'
+
   defineProps<{
+    id: string
     imageUrl: string
     address: string
     price: number
@@ -23,7 +26,7 @@
           </button>
         </div>
       </div>
-      <p class="mt-3 text-[18px] tracking-[0.08em] line-clamp-1">₽{{ price }}/месяц</p>
+      <p class="mt-3 text-[18px] tracking-[0.08em] line-clamp-1">₽{{ formatPrice(price) }}/месяц</p>
       <p class="mt-3 max-w-204 line-clamp-4 leading-7">
         {{ description }}
       </p>

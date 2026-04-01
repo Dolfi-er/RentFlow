@@ -1,7 +1,19 @@
 <script setup lang="ts">
+  import { onMounted, ref } from 'vue'
   import AddFacilityButton from './AddFacilityButton.vue'
   import FacilityList from './FacilityList.vue'
   import SearchBlock from './SearchBlock.vue'
+  import type { TFacility } from '../types'
+  import { fetchFacilities } from '../api'
+
+  const facilities = ref<TFacility[]>([])
+  onMounted(async () => {
+    try {
+      facilities.value = await fetchFacilities()
+    } catch (err) {
+      console.log(err)
+    }
+  })
 </script>
 
 <template>
@@ -12,6 +24,6 @@
       </div>
       <AddFacilityButton />
     </div>
-    <FacilityList />
+    <FacilityList :facilities="facilities" />
   </section>
 </template>
