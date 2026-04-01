@@ -8,11 +8,14 @@ public static class ErrorService
     public static string GetMessage(ErrorCode? code) => code switch
     {
         ErrorCode.InvalidAccessToken => "ошибка с access токеном",
+        ErrorCode.UserInfoNotFound => "Не найдена информация о пользователе",
+        ErrorCode.UserNotFound => "Пользователь не найден",
         _ => "Неизвестная ошибка"
     };
     public static HttpStatusCode GetStatusCode(ErrorCode? code) => code switch
     {
         ErrorCode.InvalidAccessToken => HttpStatusCode.Unauthorized,
+        ErrorCode.UserInfoNotFound or ErrorCode.UserNotFound => HttpStatusCode.NotFound,
         _ => HttpStatusCode.BadRequest
     };
 

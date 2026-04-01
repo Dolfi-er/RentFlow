@@ -29,6 +29,9 @@ public static class ProgrammExtensions
         services.AddEndpointsApiExplorer();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<IUserInfoRepository, UserInfoRepository>();
+        services.AddScoped<IUSerRepository, UserRepository>();
+        services.AddScoped<IUserService, Userservice>();
         services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo

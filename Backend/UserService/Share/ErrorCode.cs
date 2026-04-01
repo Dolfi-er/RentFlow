@@ -2,5 +2,7 @@ namespace Backend.Share;
 
 public enum ErrorCode
 {
-    InvalidAccessToken
+    InvalidAccessToken,
+    UserInfoNotFound,
+    UserNotFound
 }
