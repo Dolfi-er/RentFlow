@@ -24,6 +24,7 @@
       </div>
       <AddFacilityButton />
     </div>
-    <FacilityList :facilities="facilities" />
+    <FacilityList v-if="facilities.length > 0" :facilities="facilities" />
+    <p v-else class="mt-20 text-center text-[24px]">Пока нет добавленных объектов недвижимости</p>
   </section>
 </template>
