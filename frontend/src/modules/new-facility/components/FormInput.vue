@@ -6,6 +6,19 @@
     tag: string
     type?: string
   }>()
+
+  const inputValue = defineModel<string | number>('inputValue', {
+    required: true,
+  })
+
+  const emit = defineEmits(['update:inputValue'])
+
+  const onInput = (event: Event) => {
+    const target = event.target as HTMLInputElement | HTMLTextAreaElement
+
+    if (!target) return
+    emit('update:inputValue', target.value)
+  }
 </script>
 
 <template>
@@ -21,6 +34,9 @@
       :placeholder="placeholder"
       v-bind="$attrs"
       class="text-[16px] p-3 bg-[#F5F5F5] rounded-[20px]"
+      v-model="inputValue"
+      required
+      @input="onInput"
     />
   </div>
 </template>

@@ -8,6 +8,11 @@
 
 <template>
   <div class="flex gap-x-4 overflow-x-auto mt-3 pb-2">
-    <ImageItem v-for="(imageUrl, index) in imageUrls" :key="index" :image-url="imageUrl" />
+    <ImageItem
+      v-for="(imageUrl, index) in imageUrls"
+      :key="index"
+      :index="index"
+      :image-url="imageUrl"
+    />
   </div>
 </template>
