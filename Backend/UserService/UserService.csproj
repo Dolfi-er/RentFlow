@@ -19,6 +19,9 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.9.25" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.9" />
+    <PackageReference Include="MailKit" Version="4.12.1" />
   </ItemGroup>
 
 </Project>

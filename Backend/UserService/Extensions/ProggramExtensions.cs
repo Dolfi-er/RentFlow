@@ -6,6 +6,7 @@ using Backend.Services;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 namespace Backend.Extensions;
 
@@ -41,9 +42,16 @@ public static class ProgrammExtensions
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IRefreshTokenService, RefreshTokenService>();
         services.AddScoped<AbstractValidator<RegistrDTO>, UserValidator>();
+        services.AddScoped<IRecoveryCodeRepository, RecoveryCodeRepository>();
+        services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IPasswordRecoveryService, PasswordRecoveryService>();
         services.AddHttpContextAccessor();
         services.AddScoped<ITokenAccessor, TokenAccessor>();
         services.Configure<JwtSettings>( configuration.GetSection("JwtSettings"));
+        var redisHost = configuration["REDIS_HOST"] ;
+        var redisPort = configuration["REDIS_PORT"];
+        services.AddSingleton<IConnectionMultiplexer>(_ =>
+            ConnectionMultiplexer.Connect($"{redisHost}:{redisPort}"));
         services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo

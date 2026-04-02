@@ -2,7 +2,7 @@ using Backend.DTOs;
 using Backend.Models.Entities;
 using Backend.Repositories;
 using Backend.Share;
-using BackEnd.Extensions;
+using Backend.Extensions;
 using FluentValidation;
 
 namespace Backend.Services;
@@ -26,7 +26,7 @@ public class AuthorizationService : IAuthorizationService
     }
     public async Task<bool> ChangePassword(string login, string newPassword)
     {
-        User? user = await _userRepository.GetUserByLogin(login);
+        User? user = await _userRepository.GetUserByEmail(login);
         if (user == null) return false;
         newPassword = _hashService.Hash(newPassword);
         await _userRepository.UpdateUser(user, newPassword);

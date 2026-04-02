@@ -31,5 +31,7 @@ public enum ErrorCode
     DeleteTokenError,
     InvalidRefreshToken,
     UserCreationError,
-    RepeatLogin
+    RepeatLogin,
+    RecoveryCodeError,
+    SavePasswordError
 }

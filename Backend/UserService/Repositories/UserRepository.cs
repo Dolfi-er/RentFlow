@@ -59,4 +59,9 @@ public class UserRepository : IUSerRepository
     {
         return GetInstances().AsNoTracking().ToListAsync();
     }
+
+    public Task<User?> GetUserByEmail(string email)
+    {
+         return GetInstances().FirstOrDefaultAsync(u => u.Email == email);
+    }
 }

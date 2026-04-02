@@ -2,7 +2,7 @@ using Backend.DTOs;
 using Backend.Models.Entities;
 
 
-namespace BackEnd.Extensions;
+namespace Backend.Extensions;
 
 public static class AuthorizationExtension
 {
