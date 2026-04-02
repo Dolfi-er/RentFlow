@@ -34,6 +34,15 @@ export const handlers = [
     ])
   }),
 
+  http.post(`${API_URL}/auth/login`, () => {
+    return HttpResponse.json(
+      {},
+      {
+        status: 201,
+      },
+    )
+  }),
+
   http.post(`${API_URL}/auth/register`, () => {
     return HttpResponse.json(
       {},
@@ -41,5 +50,18 @@ export const handlers = [
         status: 201,
       },
     )
+  }),
+
+  http.get(`${API_URL}/roles`, () => {
+    return HttpResponse.json([
+      {
+        id: '721f7090-461e-43a4-a60f-f1219860605b',
+        name: 'Арендодатель',
+      },
+      {
+        id: '03900f31-dddf-4d7f-98e8-cd3134f4b591',
+        name: 'Арендатор',
+      },
+    ])
   }),
 ]

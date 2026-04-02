@@ -4,16 +4,21 @@
   import { ref } from 'vue'
   import { submitLoginForm } from '../api'
   import { AxiosError } from 'axios'
+  import FormButton from './FormButton.vue'
+  import { useRouter } from 'vue-router'
 
   const loginForm = ref<TLoginForm>({
     email: '',
     password: '',
   })
 
+  const router = useRouter()
   const error = ref<string | null>(null)
   async function handleLoginForm() {
     try {
       await submitLoginForm(loginForm.value)
+
+      router.push({ name: 'dashboard' })
     } catch (err) {
       if (err instanceof AxiosError) {
         error.value = err.response?.data.message
@@ -52,12 +57,7 @@
     <a href="" class="font-roboto font-normal text-[#5079B2] flex justify-end text-[16px] mt-5"
       >Забыли пароль?</a
     >
-    <button
-      type="submit"
-      class="w-full bg-[#072768] py-3.5 text-[18px] text-white rounded-xl font-normal mt-4.5 cursor-pointer hover:bg-[#072157] transition"
-    >
-      Войти
-    </button>
+    <FormButton class="mt-4.5">Войти</FormButton>
     <p class="font-normal text-[18px] text-[#313957] mt-7 text-center">
       Нет аккаунта?
       <span class="text-[#5079B2]">

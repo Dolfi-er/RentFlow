@@ -8,5 +8,5 @@ export async function submitLoginForm(form: TLoginForm): Promise<void> {
     throw new Error('Введите все поля')
   }
 
-  await api.post('auth/register', form)
+  await api.post('auth/login', form)
 }
