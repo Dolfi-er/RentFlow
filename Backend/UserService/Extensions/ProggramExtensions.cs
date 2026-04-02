@@ -1,7 +1,9 @@
 using System.Text.Json;
+using Backend.DTOs;
 using Backend.Models;
 using Backend.Repositories;
 using Backend.Services;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -32,12 +34,46 @@ public static class ProgrammExtensions
         services.AddScoped<IUserInfoRepository, UserInfoRepository>();
         services.AddScoped<IUSerRepository, UserRepository>();
         services.AddScoped<IUserService, Userservice>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IAuthorizationService, AuthorizationService>();
+        services.AddScoped<ICookieService, CookieService>();
+        services.AddScoped<IHashService, HashService>();
+        services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+        services.AddScoped<AbstractValidator<RegistrDTO>, UserValidator>();
+        services.AddHttpContextAccessor();
+        services.AddScoped<ITokenAccessor, TokenAccessor>();
+        services.Configure<JwtSettings>( configuration.GetSection("JwtSettings"));
         services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "UserService",
                 Version = "v1"
+            });
+
+            options.AddSecurityDefinition("UserHeader", new OpenApiSecurityScheme
+            {
+                Description = "Введите X-User-Id (GUID пользователя)",
+                Name = "X-User-Id",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "UserHeader"
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "UserHeader"
+                        }
+                    },
+                    new string[] {}
+                }
             });
         });
         return services;
@@ -54,8 +90,6 @@ public static class ProgrammExtensions
 
         app.ApplyMigrations();
         app.UseHttpsRedirection();
-        app.UseAuthentication();
-        app.UseAuthorization();
 
         app.MapControllers();
         app.MapControllerRoute(

@@ -17,6 +17,7 @@ public class RoleController : ControllerBase
     }
 
     [HttpGet("")]
+    [GatewayAuthorize]
     public async Task<IActionResult> GetAllRoles()
     {
         var result = await _service.GetAll();
@@ -24,6 +25,7 @@ public class RoleController : ControllerBase
     }
 
     [HttpPost("")]
+    [GatewayAuthorize]
     public async Task<IActionResult> CreateRole([FromBody] PostRole postRole)
     {
         var result = await _service.CreateRole(postRole);

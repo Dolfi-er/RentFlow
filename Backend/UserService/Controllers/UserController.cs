@@ -17,6 +17,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [GatewayAuthorize]
     public async Task<IActionResult> GetUserById([FromRoute] Guid id)
     {
         var result =await _service.GetUser(id);
@@ -24,6 +25,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("")]
+    [GatewayAuthorize]
     public async Task<IActionResult> UpdateUserInfo([FromBody] PutUserInfo putUserInfo)
     {
         var result = await _service.UpdateUserInfo(putUserInfo);

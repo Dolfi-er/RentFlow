@@ -32,4 +32,5 @@ public static class UserExtensions
         userInfo.Sex = putUserInfo.Sex ?? userInfo.Sex;
         userInfo.CardNumber = putUserInfo.CardNumber ?? userInfo.CardNumber;
     }
+
 }
