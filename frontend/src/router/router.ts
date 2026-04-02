@@ -1,3 +1,5 @@
+import { LoginBlock, RegisterBlock } from '@/modules/auth'
+import AuthPage from '@/pages/AuthPage.vue'
 import DashboardPage from '@/pages/DashboardPage.vue'
 import FacilitiesPage from '@/pages/FacilitiesPage.vue'
 import NewFacilityPage from '@/pages/NewFacilityPage.vue'
@@ -8,6 +10,22 @@ const routes = [
     path: '/',
     component: DashboardPage,
     name: 'dashboard',
+  },
+  {
+    path: '/auth',
+    component: AuthPage,
+    children: [
+      {
+        path: 'register',
+        component: RegisterBlock,
+        name: 'register',
+      },
+      {
+        path: 'login',
+        component: LoginBlock,
+        name: 'login',
+      },
+    ],
   },
   {
     path: '/facilities',
