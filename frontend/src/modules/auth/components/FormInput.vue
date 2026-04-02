@@ -5,6 +5,8 @@
     placeholder: string
     type: string
   }>()
+
+  const inputValue = defineModel('inputValue')
 </script>
 
 <template>
@@ -16,6 +18,7 @@
       :placeholder="placeholder"
       v-bind="$attrs"
       required
+      v-model="inputValue"
       class="bg-white rounded-xl px-3 py-2.75 border border-[#D4D7E3]"
     />
   </div>

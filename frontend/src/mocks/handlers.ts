@@ -33,4 +33,13 @@ export const handlers = [
       },
     ])
   }),
+
+  http.post(`${API_URL}/auth/register`, () => {
+    return HttpResponse.json(
+      {},
+      {
+        status: 201,
+      },
+    )
+  }),
 ]

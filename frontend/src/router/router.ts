@@ -1,4 +1,4 @@
-import { LoginBlock, RegisterBlock } from '@/modules/auth'
+import { LoginBlock, RegisterBlock } from '@/modules/auth/components'
 import AuthPage from '@/pages/AuthPage.vue'
 import DashboardPage from '@/pages/DashboardPage.vue'
 import FacilitiesPage from '@/pages/FacilitiesPage.vue'
