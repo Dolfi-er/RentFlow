@@ -4,6 +4,7 @@ using FacilityService.Repositories;
 using FacilityService.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 
 namespace FacilityService.Extensions;
 
@@ -28,9 +29,18 @@ public static class ProgrammExtensions
 
         services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
 
+        services.AddSingleton<IMongoClient>(sp =>
+        {
+            return new MongoClient(Environment.GetEnvironmentVariable("MONGO_CONNECTION")!);
+        });
+        services.AddSingleton<MongoContext>();
+
+        services.AddScoped<IFileRepository, FileRepository>();
         services.AddScoped<IStatusRepository, StatusRepository>();
         services.AddScoped<ITypeRepository, TypeRepository>();
 
+        services.AddScoped<IContentTypeService, ContentTypeService>();
+        services.AddScoped<IFileService, FileService>();
         services.AddScoped<IStatusService, StatusService>();
         services.AddScoped<ITypeService, TypeService>();
 
