@@ -35,10 +35,12 @@ public static class ProgrammExtensions
         });
         services.AddSingleton<MongoContext>();
 
+        services.AddScoped<IAddressRepository, AddressRepository>();
         services.AddScoped<IFileRepository, FileRepository>();
         services.AddScoped<IStatusRepository, StatusRepository>();
         services.AddScoped<ITypeRepository, TypeRepository>();
 
+        services.AddScoped<IAddressService, AddressService>();
         services.AddScoped<IContentTypeService, ContentTypeService>();
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IStatusService, StatusService>();
@@ -49,7 +51,7 @@ public static class ProgrammExtensions
         {
             options.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "UserService",
+                Title = "Address Service",
                 Version = "v1"
             });
         });
