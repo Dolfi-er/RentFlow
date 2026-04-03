@@ -1,8 +1,10 @@
 import { LoginBlock, RegisterBlock } from '@/modules/auth/components'
+import { FacilityInfo } from '@/modules/facility/components'
 import AuthPage from '@/pages/AuthPage.vue'
 import DashboardPage from '@/pages/DashboardPage.vue'
 import FacilitiesPage from '@/pages/FacilitiesPage.vue'
 import NewFacilityPage from '@/pages/NewFacilityPage.vue'
+import FacilityPage from '@/pages/FacilityPage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -31,6 +33,18 @@ const routes = [
     path: '/facilities',
     component: FacilitiesPage,
     name: 'facilities',
+  },
+  {
+    path: '/facilities/:id',
+    component: FacilityPage,
+    props: true,
+    children: [
+      {
+        path: '',
+        component: FacilityInfo,
+        name: 'facility',
+      },
+    ],
   },
   {
     path: '/new-facility',

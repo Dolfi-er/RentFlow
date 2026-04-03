@@ -30,11 +30,13 @@
       <p class="mt-3 max-w-204 line-clamp-4 leading-7">
         {{ description }}
       </p>
-      <button
-        class="absolute right-5 bottom-3 size-12 flex justify-center items-center cursor-pointer rounded-full hover:bg-[#E2E2E2] transition"
-      >
-        <img src="@/assets/svg/facilities/right-arrow.svg" alt="Right arrow icon" />
-      </button>
+      <RouterLink :to="{ name: 'facility', params: { id: id } }">
+        <button
+          class="absolute right-5 bottom-3 size-12 flex justify-center items-center cursor-pointer rounded-full hover:bg-[#E2E2E2] transition"
+        >
+          <img src="@/assets/svg/facilities/right-arrow.svg" alt="Right arrow icon" />
+        </button>
+      </RouterLink>
     </div>
   </li>
 </template>

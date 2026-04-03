@@ -64,4 +64,25 @@ export const handlers = [
       },
     ])
   }),
+
+  http.get<{ id: string }>(`${API_URL}/facilities/:id`, () => {
+    return HttpResponse.json({
+      address: 'Ленина 1, кв 14',
+      price: 80000,
+      phone: '+7-999-000-00-00',
+      status: 'Сдаётся',
+      description:
+        'Сдается светлая и абсолютно чистая студия (или 1-комнатная) в современном жилом комплексе. Идеальное пространство для одного или пары, ценящих комфорт и функциональность. В квартире сделан качественный ремонт (или свежий косметический) с использованием экологичных материалов',
+      images: [
+        'https://img.freepik.com/premium-photo/photo-room-modern-style-light-color_321831-4341.jpg?semt=ais_hybrid&w=740&q=80',
+        'https://img.freepik.com/premium-photo/modern-minimalistic-interior-design-light-bright-monochrome-room-with-black-white-furniture-clean-white-walls-huge-windows_267786-4897.jpg?semt=ais_hybrid',
+        'https://img.freepik.com/premium-photo/photo-room-modern-style-light-color_321831-4341.jpg?semt=ais_hybrid&w=740&q=80',
+        'https://img.freepik.com/premium-photo/modern-minimalistic-interior-design-light-bright-monochrome-room-with-black-white-furniture-clean-white-walls-huge-windows_267786-4897.jpg?semt=ais_hybrid',
+        'https://img.freepik.com/premium-photo/photo-room-modern-style-light-color_321831-4341.jpg?semt=ais_hybrid&w=740&q=80',
+        'https://img.freepik.com/premium-photo/modern-minimalistic-interior-design-light-bright-monochrome-room-with-black-white-furniture-clean-white-walls-huge-windows_267786-4897.jpg?semt=ais_hybrid',
+        'https://img.freepik.com/premium-photo/photo-room-modern-style-light-color_321831-4341.jpg?semt=ais_hybrid&w=740&q=80',
+        'https://img.freepik.com/premium-photo/modern-minimalistic-interior-design-light-bright-monochrome-room-with-black-white-furniture-clean-white-walls-huge-windows_267786-4897.jpg?semt=ais_hybrid',
+      ],
+    })
+  }),
 ]
