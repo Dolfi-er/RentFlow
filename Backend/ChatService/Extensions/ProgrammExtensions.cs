@@ -1,5 +1,7 @@
 using System.Text.Json;
 using Backend.Models;
+using Backend.Repositories;
+using Backend.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -23,6 +25,8 @@ public static class ProgrammExtensions
         var dbPassword = configuration["DB_PASSWORD"];
         var connectionString = $"Host={dbHost};Port={dbPort};Database={dbName};Username={dbUser};Password={dbPassword}";
 
+        services.AddScoped<IMessageStatusRepository, MessageStatusRepository>();
+        services.AddScoped<IMessageStatusService, MessageStatusService>();
         services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
