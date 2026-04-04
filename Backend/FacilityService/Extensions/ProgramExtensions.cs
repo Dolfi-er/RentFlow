@@ -39,12 +39,14 @@ public static class ProgrammExtensions
         services.AddScoped<ITokenAccessor, TokenAccessor>();
 
         services.AddScoped<IAddressRepository, AddressRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IFacilityRepository, FacilityRepository>();
         services.AddScoped<IFileRepository, FileRepository>();
         services.AddScoped<IStatusRepository, StatusRepository>();
         services.AddScoped<ITypeRepository, TypeRepository>();
 
         services.AddScoped<IAddressService, AddressService>();
+        services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IContentTypeService, ContentTypeService>();
         services.AddScoped<IFacilityService, MyFacilityService>();
         services.AddScoped<IFileService, FileService>();

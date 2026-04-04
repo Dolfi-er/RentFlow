@@ -8,6 +8,7 @@ public class Context : DbContext
 {
     public DbSet<AddressEntity> Addresses { get; set; }
     public DbSet<ApplicationEntity> Applications { get; set; }
+    public DbSet<CategoryEntity> Categories { get; set; }
     public DbSet<FacilityEntity> Facilities { get; set; }
     public DbSet<RequestEntity> Requests { get; set; }
     public DbSet<StatusEntity> Statuses { get; set; }
@@ -19,6 +20,7 @@ public class Context : DbContext
     {
         builder.ApplyConfiguration(new AddressConfiguration());
         builder.ApplyConfiguration(new ApplicationConfiguration());
+        builder.ApplyConfiguration(new CategoryConfiguration());
         builder.ApplyConfiguration(new FacilityConfiguration());
         builder.ApplyConfiguration(new RequestConfiguration());
         builder.ApplyConfiguration(new StatusConfiguration());
