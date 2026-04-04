@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.Json;
+using System.Threading.RateLimiting;
 using DotNetEnv;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -61,10 +62,31 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+        await context.HttpContext.Response.WriteAsync("Слишком много запросов, попробуйте позже.");
+    };
 
+    options.AddPolicy("IpFixedWindow", httpContext =>
+    {
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        return RateLimitPartition.GetFixedWindowLimiter(ip, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 100,
+            Window = TimeSpan.FromSeconds(10),
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            QueueLimit = 0  
+        });
+    });
+});
 var app = builder.Build();
 
 app.UseAuthentication();
+app.UseRateLimiter();
 app.UseAuthorization();
 
 app.Use(async (context, next) =>
@@ -298,6 +320,6 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "";
 });
 
-app.MapReverseProxy();
+app.MapReverseProxy().RequireRateLimiting("IpFixedWindow");
 
 app.Run();
