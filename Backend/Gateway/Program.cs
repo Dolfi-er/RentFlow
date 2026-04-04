@@ -308,7 +308,7 @@ app.MapGet("/swagger-proxy/facilities/swagger.json", async context =>
     await ProxySwagger(context, facilityHost!, facilityPort!, "/facilities"));
 
 app.MapGet("/swagger-proxy/subscriptions/swagger.json", async context =>
-    await ProxySwagger(context, subscriptionHost!, subscriptionPort!, "/subscriptions"));
+    await ProxySwagger(context, subscriptionHost!, subscriptionPort!, "/subsciptions"));
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
