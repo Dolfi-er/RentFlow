@@ -1,5 +1,4 @@
 using FacilityService.DTOs.AddressDTOs;
-using FacilityService.DTOs.StatusDTOs;
 using FacilityService.Models.Entities;
 
 namespace FacilityService.Extensions.ExtensionsDTO;

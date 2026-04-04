@@ -12,7 +12,7 @@ public class AddressConfiguration : IEntityTypeConfiguration<AddressEntity>
         
         builder.HasOne(a => a.Facility)
                .WithOne(f => f.Address)
-               .HasForeignKey<FacilityEntity>(f => f.Id)
+               .HasForeignKey<AddressEntity>(a => a.Id)
                .OnDelete(DeleteBehavior.Cascade);
     }
 }

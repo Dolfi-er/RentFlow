@@ -9,14 +9,16 @@ namespace FacilityService.Controllers;
 public class AddressesController : ControllerBase
 {
     private readonly IAddressService _addressService;
+    private readonly ITokenAccessor _tokenAccessor;
 
-    public AddressesController(IAddressService addressService)
+    public AddressesController(IAddressService addressService, ITokenAccessor tokenAccessor)
     {
         _addressService = addressService;
+        _tokenAccessor = tokenAccessor;
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetAllAsync([FromRoute] Guid id)
+    public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
     {
         GetAddressDTO? getAddressDTO = await _addressService.GetByIdAsync(id);
         if (getAddressDTO is null) return NotFound();
