@@ -39,7 +39,7 @@ public class FacilitiesController : ControllerBase
     }
     
     [HttpPost("")]
-    public async Task<IActionResult> CreateAsync([FromBody] PostFacilityDTO postFacilityDTO)
+    public async Task<IActionResult> CreateAsync([FromForm] PostFacilityDTO postFacilityDTO)
     {
         Guid? ownerId = _tokenAccessor.GetUserId();
         if (ownerId is null) return Unauthorized();

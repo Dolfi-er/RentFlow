@@ -18,6 +18,7 @@ public static class ProgrammExtensions
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
                 options.JsonSerializerOptions.WriteIndented = false;
+                options.JsonSerializerOptions.Converters.Add(new ObjectIdConverter());
             });
 
         string dbHost = configuration["DB_HOST"]!;
@@ -39,6 +40,7 @@ public static class ProgrammExtensions
         services.AddScoped<ITokenAccessor, TokenAccessor>();
 
         services.AddScoped<IAddressRepository, AddressRepository>();
+        services.AddScoped<IApplicationRepository, ApplicationRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IFacilityRepository, FacilityRepository>();
         services.AddScoped<IFileRepository, FileRepository>();
@@ -46,6 +48,7 @@ public static class ProgrammExtensions
         services.AddScoped<ITypeRepository, TypeRepository>();
 
         services.AddScoped<IAddressService, AddressService>();
+        services.AddScoped<IApplicationService, ApplicationService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IContentTypeService, ContentTypeService>();
         services.AddScoped<IFacilityService, MyFacilityService>();
