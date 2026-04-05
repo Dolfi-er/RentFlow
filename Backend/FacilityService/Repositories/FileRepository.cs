@@ -37,15 +37,19 @@ public class FileRepository : IFileRepository
     {
         ObjectId objectId = ObjectId.Parse(fileId);
 
-        GridFSFileInfo fileInfo = await _mongoDb.Find(Builders<GridFSFileInfo>.Filter.Eq(f => f.Id, objectId))
-                                     .FirstOrDefaultAsync();
-        if (fileInfo == null) return null;
+        GridFSFileInfo fileInfo = await _mongoDb
+            .Find(Builders<GridFSFileInfo>.Filter.Eq(f => f.Id, objectId))
+            .FirstOrDefaultAsync();
 
-        Stream stream = new MemoryStream();
+        if (fileInfo is null) return null;
+
+        var stream = new MemoryStream();
         await _mongoDb.DownloadToStreamAsync(objectId, stream);
         stream.Position = 0;
 
-        string contentType = fileInfo.Metadata?["contentType"]?.AsString ?? "application/octet-stream";
+        string contentType = fileInfo.Metadata?["contentType"]?.AsString 
+                            ?? "application/octet-stream";
+
         string fileName = fileInfo.Filename ?? "file";
 
         return new FileDownloadResult
