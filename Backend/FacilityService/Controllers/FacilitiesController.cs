@@ -8,10 +8,10 @@ namespace FacilityService.Controllers;
 [Route("facility")]
 public class FacilitiesController : ControllerBase
 {
-    private readonly IFacilityService _facilityService;
+    private readonly IMyFacilityService _facilityService;
     private readonly ITokenAccessor _tokenAccessor;
 
-    public FacilitiesController(IFacilityService facilityService, ITokenAccessor tokenAccessor)
+    public FacilitiesController(IMyFacilityService facilityService, ITokenAccessor tokenAccessor)
     {
         _facilityService = facilityService;
         _tokenAccessor = tokenAccessor;
@@ -37,6 +37,15 @@ public class FacilitiesController : ControllerBase
     {
         return Ok(await _facilityService.GetAllAsync());
     }
+
+    [HttpGet("owner")]
+    public async Task<IActionResult> GetByOwnerAsync()
+    {
+        Guid? ownerId = _tokenAccessor.GetUserId();
+        if (ownerId is null) return Unauthorized();
+
+        return Ok(await _facilityService.GetByOwnerAsync(ownerId.Value));
+    }
     
     [HttpPost("")]
     public async Task<IActionResult> CreateAsync([FromForm] PostFacilityDTO postFacilityDTO)
@@ -47,7 +56,7 @@ public class FacilitiesController : ControllerBase
     }
     
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] PutFacilityDTO putFacilityDTO)
+    public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] PutFacilityDTO putFacilityDTO)
     {
         Guid? ownerId = _tokenAccessor.GetUserId();
         if (ownerId is null) return Unauthorized();

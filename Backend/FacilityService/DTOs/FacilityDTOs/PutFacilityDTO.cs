@@ -6,4 +6,6 @@ public class PutFacilityDTO
     public required string Name { get; set; }
     public string Description { get; set; } = string.Empty;
     public required int RentPrice { get; set; }
+
+    public List<IFormFile> Files { get; set; } = new();
 }

@@ -6,12 +6,13 @@ namespace FacilityService.Extensions.ExtensionsDTO;
 
 public static class ApplicationExtensions
 {
-    public static GetApplicationDTO ToDTO(this ApplicationEntity applicationEntity)
+    public static GetApplicationDTO ToDTO(this ApplicationEntity applicationEntity, string baseFileURL)
     {
         return new GetApplicationDTO()
         {
             Id = applicationEntity.Id,
             DocumentId = applicationEntity.DocumentId,
+            DocumentRef = baseFileURL + applicationEntity.DocumentId.ToString(),
             ContentType = applicationEntity.ContentType,
             FacilityId = applicationEntity.FacilityId,
         };

@@ -1,3 +1,5 @@
+using FacilityService.DTOs.ApplicationDTOs;
+
 namespace FacilityService.DTOs.FacilityDTOs;
 
 public class GetFacilityDTO
@@ -8,4 +10,6 @@ public class GetFacilityDTO
     public string Description { get; set; } = string.Empty;
     public required int RentPrice { get; set; }
     public required Guid OwnerId { get; set; }
+    
+    public List<GetApplicationDTO> Applications { get; set; } = new List<GetApplicationDTO>();
 }

@@ -51,7 +51,7 @@ public static class ProgrammExtensions
         services.AddScoped<IApplicationService, ApplicationService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IContentTypeService, ContentTypeService>();
-        services.AddScoped<IFacilityService, MyFacilityService>();
+        services.AddScoped<IMyFacilityService, MyFacilityService>();
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IStatusService, StatusService>();
         services.AddScoped<ITypeService, TypeService>();

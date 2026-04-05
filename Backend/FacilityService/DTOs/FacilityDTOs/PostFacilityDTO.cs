@@ -7,5 +7,5 @@ public class PostFacilityDTO
     public string Description { get; set; } = string.Empty;
     public required int RentPrice { get; set; }
 
-    public List<IFormFile> Images { get; set; } = new();
+    public List<IFormFile> Files { get; set; } = new();
 }

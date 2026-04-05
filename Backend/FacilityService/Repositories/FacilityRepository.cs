@@ -16,15 +16,20 @@ public class FacilityRepository : IFacilityRepository
     public async Task<FacilityEntity?> GetByIdAsync(Guid facilityId)
     {
         return await _context.Facilities.Include(f => f.Type)
-                                        .AsNoTracking()
+                                        .Include(f => f.Applications)
                                         .FirstOrDefaultAsync(a => a.Id == facilityId);
     }
 
-    public async Task<List<FacilityEntity>> GetAllAsync()
+    public async Task<List<FacilityEntity>> GetAllAsync(Guid? ownerId = null)
     {
-        return await _context.Facilities.Include(f => f.Type)
-                                        .AsNoTracking()
-                                        .ToListAsync();
+        IQueryable<FacilityEntity> query = _context.Facilities.Include(f => f.Type)
+                                                              .Include(f => f.Applications)
+                                                              .AsNoTracking()
+                                                              .AsQueryable();
+
+        if (ownerId is not null) query = query.Where(f => f.OwnerId == ownerId);
+
+        return await query.ToListAsync();
     }
 
     public async Task<Guid> CreateAsync(FacilityEntity facilityEntity)
@@ -51,6 +56,15 @@ public class FacilityRepository : IFacilityRepository
         if (facilityEntity is null) return;
 
         _context.Facilities.Remove(facilityEntity);
-        await _context.SaveChangesAsync();
+    }
+
+    public async Task RemoveApplications(FacilityEntity facilityEntity)
+    {
+        _context.Applications.RemoveRange(facilityEntity.Applications);
+    }
+
+    public async Task<bool> SaveChangesAsync()
+    {
+        return await _context.SaveChangesAsync() > 0;
     }
 }

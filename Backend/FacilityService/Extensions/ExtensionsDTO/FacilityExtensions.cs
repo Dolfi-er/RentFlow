@@ -5,7 +5,7 @@ namespace FacilityService.Extensions.ExtensionsDTO;
 
 public static class FacilityExtensions
 {
-    public static GetFacilityDTO ToDTO(this FacilityEntity facilityEntity)
+    public static GetFacilityDTO ToDTO(this FacilityEntity facilityEntity, string baseFileURL)
     {
         return new GetFacilityDTO()
         {
@@ -15,6 +15,7 @@ public static class FacilityExtensions
             Description = facilityEntity.Description,
             RentPrice = facilityEntity.Price,
             OwnerId = facilityEntity.OwnerId,
+            Applications = facilityEntity.Applications.Select(a => a.ToDTO(baseFileURL)).ToList(),
         };
     }
 
@@ -41,5 +42,13 @@ public static class FacilityExtensions
             Price = putFacilityDTO.RentPrice,
             OwnerId = ownerId,
         };
+    }
+
+    public static void UpdateEntity(this FacilityEntity facilityEntity, PutFacilityDTO putFacilityDTO)
+    {
+        facilityEntity.TypeId = putFacilityDTO.TypeId;
+        facilityEntity.Name = putFacilityDTO.Name;
+        facilityEntity.Description = putFacilityDTO.Description;
+        facilityEntity.Price = putFacilityDTO.RentPrice;
     }
 }

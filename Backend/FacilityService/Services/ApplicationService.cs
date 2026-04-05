@@ -7,15 +7,17 @@ namespace FacilityService.Services;
 public class ApplicationService : IApplicationService
 {
     private readonly IApplicationRepository _applicationRepository;
+    private readonly string _baseFileURL;
 
-    public ApplicationService(IApplicationRepository applicationRepository)
+    public ApplicationService(IApplicationRepository applicationRepository, IConfiguration configuration)
     {
         _applicationRepository = applicationRepository;
+        _baseFileURL = configuration["FileEndpointBase"]!;
     }
 
     public async Task<List<GetApplicationDTO>> GetAllAsync()
     {
-        return (await _applicationRepository.GetAllAsync()).Select(a => a.ToDTO()).ToList();
+        return (await _applicationRepository.GetAllAsync()).Select(a => a.ToDTO(_baseFileURL)).ToList();
     }
 
     public async Task<Guid> CreateAsync(PostApplicationDTO postApplicationDTO)
