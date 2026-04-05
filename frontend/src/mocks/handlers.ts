@@ -85,4 +85,67 @@ export const handlers = [
       ],
     })
   }),
+
+  http.get<{ id: string }>(`${API_URL}/facilities/:id/chats`, () => {
+    return HttpResponse.json([
+      {
+        id: '721f7090-461e-43a4-a60f-f1219860605b',
+        user: 'Иванов Иван',
+        messages: [
+          {
+            id: '721f7090-461e-43a4-a60f-f1219860605b',
+            datetime: '2026-04-04T16:00',
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus recusandae a amet autem culpa atque repellendus magni maiores unde, excepturi provident obcaecati, cupiditate nonimpedit laudantium quaerat! Sit, fugit modi.',
+            sender: false,
+          },
+          {
+            id: '721f7090-461e-23a4-a60f-f1219860605b',
+            datetime: '2026-04-04T15:53',
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus recusandae a amet autem culpa atque repellendus magni maiores unde, excepturi provident obcaecati, cupiditate nonimpedit laudantium quaerat! Sit, fugit modi.',
+            sender: false,
+          },
+          {
+            id: '721f7090-461e-43b4-a60f-f1219860605b',
+            datetime: '2026-04-04T15:50',
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus recusandae a amet autem culpa atque repellendus magni maiores unde, excepturi provident obcaecati, cupiditate nonimpedit laudantium quaerat! Sit, fugit modi.',
+            sender: true,
+          },
+          {
+            id: '731f7090-461e-43b4-a60f-f1219860605b',
+            datetime: '2026-04-04T15:12',
+            message:
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus recusandae a amet autem culpa atque repellendus magni maiores unde, excepturi provident obcaecati, cupiditate nonimpedit laudantium quaerat! Sit, fugit modi.',
+            sender: true,
+          },
+        ],
+      },
+      {
+        id: '721f7090-461e-43a4-a60f-f1219863605b',
+        user: 'Александров Александр',
+        messages: [
+          {
+            id: '721f7390-461e-43b4-a60f-f1219860605b',
+            datetime: '2026-08-15T08:16',
+            message: 'Здравствуйте, Елена! Да, всё хорошо',
+            sender: true,
+          },
+          {
+            id: '731f7390-461e-43b4-a60f-f1219860605b',
+            datetime: '2026-08-15T08:15',
+            message: 'Иван, здравствуйте! У Вас всё в порядке?',
+            sender: false,
+          },
+        ],
+      },
+    ])
+  }),
+
+  http.post<{ id: string }>(`${API_URL}/chats/:id`, () => {
+    return HttpResponse.json({
+      id: crypto.randomUUID(),
+    })
+  }),
 ]
