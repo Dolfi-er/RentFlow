@@ -10,6 +10,7 @@ public class Context : DbContext
     public DbSet<Chat> Chats{ get; set; } =null!;
     public DbSet<Message> Messages{ get; set; } =null!;
     public DbSet<MessageStatus> MessagesStatuses { get; set; } =null!;
+    public DbSet<ChatUser> ChatUsers { get; set; } =null!;
     public Context(DbContextOptions<Context> options) : base(options){}
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -18,5 +19,6 @@ public class Context : DbContext
         builder.ApplyConfiguration(new ChatConfiguration());
         builder.ApplyConfiguration(new MessageConfiguration());
         builder.ApplyConfiguration(new MessageStatusConfiguration());
+        builder.ApplyConfiguration(new ChatUserConfiguration());
     }
 }
