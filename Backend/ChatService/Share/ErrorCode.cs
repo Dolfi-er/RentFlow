@@ -3,5 +3,6 @@ namespace Backend.Share;
 public enum ErrorCode
 {
     InvalidAccessToken,
-    MessageStatusNotFound
+    MessageStatusNotFound,
+    ChatNotFound
 }

@@ -27,6 +27,10 @@ public static class ProgrammExtensions
 
         services.AddScoped<IMessageStatusRepository, MessageStatusRepository>();
         services.AddScoped<IMessageStatusService, MessageStatusService>();
+        services.AddHttpContextAccessor();
+        services.AddScoped<ITokenAccessor, TokenAccessor>();
+        services.AddScoped<IChatRepository, ChatRepository>();
+        services.AddScoped<IChatService, Chatservice>();
         services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
@@ -35,6 +39,30 @@ public static class ProgrammExtensions
             {
                 Title = "ChatService",
                 Version = "v1"
+            });
+
+            options.AddSecurityDefinition("ChatHeader", new OpenApiSecurityScheme
+            {
+                Description = "Введите X-User-Id (GUID пользователя)",
+                Name = "X-User-Id",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "ChatHeader" 
+                        },
+                        In = ParameterLocation.Header
+                    },
+                    Array.Empty<string>()
+                }
             });
         });
         return services;

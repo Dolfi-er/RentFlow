@@ -9,14 +9,14 @@ public static class ErrorService
     {
         ErrorCode.InvalidAccessToken => "Ошибка с access токеном",
         ErrorCode.MessageStatusNotFound => "Статус не найден",
-
+        ErrorCode.ChatNotFound => "Чат не найден",
         _ => "Неизвестная ошибка"
     };
 
     public static HttpStatusCode GetStatusCode(ErrorCode? code) => code switch
     {
         ErrorCode.InvalidAccessToken => HttpStatusCode.Unauthorized,
-        ErrorCode.MessageStatusNotFound => HttpStatusCode.NotFound,
+        ErrorCode.MessageStatusNotFound or ErrorCode.ChatNotFound => HttpStatusCode.NotFound,
         _ => HttpStatusCode.BadRequest
     };
     public static IActionResult ToHttpResult<T>(this Result<T> result)
