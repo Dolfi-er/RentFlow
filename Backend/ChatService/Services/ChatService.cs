@@ -12,10 +12,12 @@ public class Chatservice : IChatService
 {
     private readonly IChatRepository _repository;
     private readonly ITokenAccessor _tokenAccessor;
-    public Chatservice(IChatRepository repository, ITokenAccessor tokenAccessor)
+    private readonly string _baseFileURL;
+    public Chatservice(IChatRepository repository, ITokenAccessor tokenAccessor, IConfiguration configuration)
     {
         _repository = repository;
         _tokenAccessor = tokenAccessor;
+         _baseFileURL = configuration["FileEndpointBase"]!;
     }
     public async Task<Result<Guid>> CreateChat(PostChat postChat)
     {
@@ -57,6 +59,6 @@ public class Chatservice : IChatService
         if(userId is null)  return Result<GetExtendedChat>.Error(ErrorCode.InvalidAccessToken);
         Chat? chat = await _repository.GetById(userId.Value, chatId);
         if(chat is null ) return Result<GetExtendedChat>.Error(ErrorCode.ChatNotFound);
-        return Result<GetExtendedChat>.Success(chat.ToExtendedDTO(userId.Value));
+        return Result<GetExtendedChat>.Success(chat.ToExtendedDTO(userId.Value, _baseFileURL));
     }
 }

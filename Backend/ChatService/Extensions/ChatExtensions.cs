@@ -38,7 +38,7 @@ public static class ChatExtensions
         }
         return result;
     }
-    public static GetExtendedChat ToExtendedDTO(this Chat chat, Guid userId)
+    public static GetExtendedChat ToExtendedDTO(this Chat chat, Guid userId, string baseFileURL)
     {
         return new GetExtendedChat
         {
@@ -49,7 +49,13 @@ public static class ChatExtensions
                 Message = m.Text,
                 DateTime = m.SendDate,
                 IsSender = m.SenderId == userId,
-                Status =m.MessageStatusEntity!.Name
+                Status =m.MessageStatusEntity!.Name,
+                Applications = m.ApllicationEntities.Select(a => new GetChatApplicationDTO
+                {
+                    Id = a.Id,
+                    DocumentId = a.DocumentId,
+                    DocumentRef =baseFileURL + a.DocumentId.ToString()
+                }).ToList()
             }).ToList()
         };
     }

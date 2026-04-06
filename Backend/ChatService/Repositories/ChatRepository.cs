@@ -29,7 +29,7 @@ public class ChatRepository : IChatRepository
 
     public Task<Chat?> GetById(Guid userId, Guid chatId)
     {
-        return GetInstances(userId).AsNoTracking().Include(c => c.MessageEntities).ThenInclude(m => m.MessageStatusEntity).FirstOrDefaultAsync(c => c.Id ==chatId);
+        return GetInstances(userId).AsNoTracking().Include(c => c.MessageEntities).ThenInclude(m => m.MessageStatusEntity).Include(c => c.MessageEntities).ThenInclude(m => m.ApllicationEntities).FirstOrDefaultAsync(c => c.Id ==chatId);
     }
 
     public async Task<Guid> CreateChat(Chat chat, List<ChatUser> chatUsers)

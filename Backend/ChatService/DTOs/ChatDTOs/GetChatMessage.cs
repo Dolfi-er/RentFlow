@@ -7,4 +7,5 @@ public record GetChatMessage
     public DateTime  DateTime { get; set; }
     public bool IsSender { get; set; }
     public string Status { get; set; } = null!;
+    public List<GetChatApplicationDTO> Applications { get; set; } = null!;
 }
