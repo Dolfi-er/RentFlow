@@ -10,13 +10,16 @@ public static class ErrorService
         ErrorCode.InvalidAccessToken => "Ошибка с access токеном",
         ErrorCode.MessageStatusNotFound => "Статус не найден",
         ErrorCode.ChatNotFound => "Чат не найден",
+        ErrorCode.FileNotFound => "Файл не найден",
+        ErrorCode.EmptyFile => "Пустой файл",
+        ErrorCode.ApplicationNotFound => "Метаданные фотографии не найдены",
         _ => "Неизвестная ошибка"
     };
 
     public static HttpStatusCode GetStatusCode(ErrorCode? code) => code switch
     {
         ErrorCode.InvalidAccessToken => HttpStatusCode.Unauthorized,
-        ErrorCode.MessageStatusNotFound or ErrorCode.ChatNotFound => HttpStatusCode.NotFound,
+        ErrorCode.MessageStatusNotFound or ErrorCode.ChatNotFound or ErrorCode.FileNotFound or ErrorCode.ApplicationNotFound=> HttpStatusCode.NotFound,
         _ => HttpStatusCode.BadRequest
     };
     public static IActionResult ToHttpResult<T>(this Result<T> result)

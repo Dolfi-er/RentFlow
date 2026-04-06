@@ -302,7 +302,7 @@ app.MapGet("/swagger-proxy/users/swagger.json", async context =>
     await ProxySwagger(context, usersHost!, usersPort!, "/users"));
 
 app.MapGet("/swagger-proxy/chats/swagger.json", async context =>
-    await ProxySwagger(context, chatHost!, chatPort!, "/ch"));
+    await ProxySwagger(context, chatHost!, chatPort!, "/chats"));
 
 app.MapGet("/swagger-proxy/facilities/swagger.json", async context =>
     await ProxySwagger(context, facilityHost!, facilityPort!, "/facilities"));

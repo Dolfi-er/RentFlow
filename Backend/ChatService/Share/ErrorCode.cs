@@ -4,5 +4,8 @@ public enum ErrorCode
 {
     InvalidAccessToken,
     MessageStatusNotFound,
-    ChatNotFound
+    ChatNotFound,
+    FileNotFound,
+    EmptyFile,
+    ApplicationNotFound
 }

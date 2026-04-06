@@ -19,7 +19,7 @@ public class ChatController : ControllerBase
     public async Task<IActionResult> CreateChat([FromBody] PostChat postChat)
     {
         var result = await _chatService.CreateChat(postChat);
-        if (!result.IsSuccess) return BadRequest(result.ToHttpResult());
+        if (!result.IsSuccess) return result.ToHttpResult();
         return StatusCode(201, result.Value);
     }
 

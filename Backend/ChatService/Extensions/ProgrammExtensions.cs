@@ -4,6 +4,7 @@ using Backend.Repositories;
 using Backend.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 
 namespace Backend.Extensions;
 
@@ -17,6 +18,7 @@ public static class ProgrammExtensions
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
                 options.JsonSerializerOptions.WriteIndented = false;
+                options.JsonSerializerOptions.Converters.Add(new ObjectIdConverter());
             });
         var dbHost = configuration["DB_HOST"];
         var dbPort = configuration["DB_PORT"];
@@ -29,9 +31,19 @@ public static class ProgrammExtensions
         services.AddScoped<IMessageStatusService, MessageStatusService>();
         services.AddHttpContextAccessor();
         services.AddScoped<ITokenAccessor, TokenAccessor>();
+        services.AddScoped<IFileRepository, FileRepository>();
+        services.AddScoped<IFileService, FileService>();
+        services.AddScoped<IContentTypeService, ContentTypeService>();
         services.AddScoped<IChatRepository, ChatRepository>();
         services.AddScoped<IChatService, Chatservice>();
+        services.AddScoped<IApplicationRepository, ApplicationRepository>();
+        services.AddScoped<IApplicationService, ApplicationService>();
         services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
+        services.AddSingleton<IMongoClient>(sp =>
+        {
+            return new MongoClient(Environment.GetEnvironmentVariable("MONGO_CONNECTION")!);
+        });
+        services.AddSingleton<MongoContext>();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
