@@ -7,5 +7,6 @@ public enum ErrorCode
     ChatNotFound,
     FileNotFound,
     EmptyFile,
-    ApplicationNotFound
+    ApplicationNotFound,
+    MessageNotFound
 }

@@ -38,6 +38,8 @@ public static class ProgrammExtensions
         services.AddScoped<IChatService, Chatservice>();
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
         services.AddScoped<IApplicationService, ApplicationService>();
+        services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IMessageService, MessageService>();
         services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
         services.AddSingleton<IMongoClient>(sp =>
         {
