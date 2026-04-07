@@ -1,0 +1,37 @@
+namespace Backend.Share;
+
+public enum ErrorCode
+{
+    InvalidAccessToken,
+    UserInfoNotFound,
+    UserNotFound,
+    LoginError,
+    EmailError,
+    PasswordError,
+    PasswordMatch,
+    NameError,
+    SurnameError,
+    PatronymicError,
+    PhoneNumberError,
+    DateError,
+    EmptySex,
+    SexError,
+    EmptyCard,
+    CardError,
+    EmptyLogin,
+    EmptyEmail,
+    EmptyPassword,
+    EmptyName,
+    EmptySurname,
+    EmptyPatronymic,
+    EmptyPhoneNumber,
+    CookieError,
+    WrongPassword,
+    NotFoundToken,
+    DeleteTokenError,
+    InvalidRefreshToken,
+    UserCreationError,
+    RepeatLogin,
+    RecoveryCodeError,
+    SavePasswordError
+}
