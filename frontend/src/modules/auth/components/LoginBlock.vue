@@ -6,9 +6,10 @@
   import { AxiosError } from 'axios'
   import FormButton from './FormButton.vue'
   import { useRouter } from 'vue-router'
+  import { useUserStore } from '@/shared/stores'
 
   const loginForm = ref<TLoginForm>({
-    email: '',
+    login: '',
     password: '',
   })
 
@@ -16,12 +17,15 @@
   const error = ref<string | null>(null)
   async function handleLoginForm() {
     try {
-      await submitLoginForm(loginForm.value)
+      const accessToken = await submitLoginForm(loginForm.value)
+
+      const userStore = useUserStore()
+      userStore.authenticate(accessToken)
 
       router.push({ name: 'dashboard' })
     } catch (err) {
       if (err instanceof AxiosError) {
-        error.value = err.response?.data.message
+        error.value = err.response?.data.errorMessage
       }
     }
   }
@@ -35,13 +39,7 @@
       <span class="font-bold text-[#313957]">RentFlow!</span>
     </p>
     <div class="mt-8 flex flex-col gap-4">
-      <FormInput
-        label="Почта"
-        name="email"
-        placeholder="example@email.com"
-        type="email"
-        v-model="loginForm.email"
-      />
+      <FormInput label="Логин" name="login" placeholder="" type="text" v-model="loginForm.login" />
       <FormInput
         label="Пароль"
         name="password"
@@ -58,7 +56,7 @@
       >Забыли пароль?</a
     >
     <FormButton class="mt-4.5">Войти</FormButton>
-    <p class="font-normal text-[18px] text-[#313957] mt-7 text-center">
+    <p class="font-normal text-[16px] text-[#313957] mt-7 text-center">
       Нет аккаунта?
       <span class="text-[#5079B2]">
         <RouterLink :to="{ name: 'register' }"><a href="">Зарегистрируйтесь</a></RouterLink>

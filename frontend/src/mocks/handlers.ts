@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-const API_URL = 'http://localhost:6967'
+const API_URL = 'http://localhost:5054'
 
 export const handlers = [
   http.post(`${API_URL}/facilities`, () => {
@@ -34,7 +34,20 @@ export const handlers = [
     ])
   }),
 
-  http.post(`${API_URL}/auth/login`, () => {
+  http.post(`${API_URL}/users/auth/login`, () => {
+    return HttpResponse.json(
+      {
+        value: {
+          token: '',
+        },
+      },
+      {
+        status: 201,
+      },
+    )
+  }),
+
+  http.post(`${API_URL}/users/auth/registr`, () => {
     return HttpResponse.json(
       {},
       {
@@ -43,26 +56,19 @@ export const handlers = [
     )
   }),
 
-  http.post(`${API_URL}/auth/register`, () => {
-    return HttpResponse.json(
-      {},
-      {
-        status: 201,
-      },
-    )
-  }),
-
-  http.get(`${API_URL}/roles`, () => {
-    return HttpResponse.json([
-      {
-        id: '721f7090-461e-43a4-a60f-f1219860605b',
-        name: 'Арендодатель',
-      },
-      {
-        id: '03900f31-dddf-4d7f-98e8-cd3134f4b591',
-        name: 'Арендатор',
-      },
-    ])
+  http.get(`${API_URL}/users/role`, () => {
+    return HttpResponse.json({
+      value: [
+        {
+          id: '721f7090-461e-43a4-a60f-f1219860605b',
+          name: 'Арендодатель',
+        },
+        {
+          id: '03900f31-dddf-4d7f-98e8-cd3134f4b591',
+          name: 'Арендатор',
+        },
+      ],
+    })
   }),
 
   http.get<{ id: string }>(`${API_URL}/facilities/:id`, () => {

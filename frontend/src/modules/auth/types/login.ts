@@ -1,4 +1,4 @@
 export type TLoginForm = {
-  email: string
+  login: string
   password: string
 }

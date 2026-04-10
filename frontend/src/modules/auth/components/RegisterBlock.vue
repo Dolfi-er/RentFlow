@@ -18,10 +18,9 @@
 
   const registerForm = ref<TRegisterForm>({
     email: '',
-    surname: '',
-    name: '',
+    fullName: '',
+    phoneNumber: '',
     roleId: '',
-    sex: 'Мужской',
     password: '',
     repeatPassword: '',
   })
@@ -35,7 +34,7 @@
       router.push({ name: 'login' })
     } catch (err) {
       if (err instanceof AxiosError) {
-        error.value = err.response?.data.message
+        error.value = err.response?.data.errorMessage
       } else if (err instanceof Error) {
         error.value = err.message
       }
@@ -48,41 +47,27 @@
     <h2 class="font-vioada text-[36px] mt-5 tracking-[0.01em]">Регистрация</h2>
     <div class="mt-8 flex flex-col gap-4">
       <FormInput
-        label="Фамилия"
-        name="surname"
-        placeholder="Фамилия"
+        label="ФИО"
+        name="full-name"
+        placeholder="Иванов Иван Иванович"
         type="text"
-        v-model="registerForm.surname"
+        v-model="registerForm.fullName"
+        pattern="^[A-Za-zА-Яа-яЁё]+-[A-Za-zА-Яа-яЁё]+ [A-Za-zА-Яа-яЁё]+(?: [A-Za-zА-Яа-яЁё]+)?$|^[A-Za-zА-Яа-яЁё]+ [A-Za-zА-Яа-яЁё]+(?: [A-Za-zА-Яа-яЁё]+)?$"
       />
       <FormInput
-        label="Имя"
-        name="name"
-        placeholder="Имя"
-        type="text"
-        v-model="registerForm.name"
+        label="Почта"
+        name="email"
+        placeholder="example@email.com"
+        type="email"
+        v-model="registerForm.email"
       />
       <FormInput
-        label="Отчество"
-        name="patronymic"
-        placeholder="Отчество"
-        type="text"
-        v-model="registerForm.patronymic"
+        label="Номер телефона"
+        name="phone"
+        placeholder="+71234567890"
+        type="phone"
+        v-model="registerForm.phoneNumber"
       />
-      <div class="flex flex-col gap-2 text-[16px] font-normal font-roboto w-[50%]">
-        <label for="sex">Пол</label>
-        <select
-          name="sex"
-          required
-          v-model="registerForm.sex"
-          class="bg-white rounded-xl px-3 py-2.75 border border-[#D4D7E3]"
-        >
-          <option value="Мужской">Мужской</option>
-          <option value="Женский">Женский</option>
-        </select>
-      </div>
-    </div>
-    <div class="bg-[#CFDFE2] h-0.5 my-8"></div>
-    <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-2 text-[16px] font-normal font-roboto">
         <label for="role">Роль</label>
         <select
@@ -94,14 +79,8 @@
         </select>
       </div>
     </div>
-    <div class="mt-12 flex flex-col gap-4">
-      <FormInput
-        label="Почта"
-        name="email"
-        placeholder="example@email.com"
-        type="email"
-        v-model="registerForm.email"
-      />
+    <div class="bg-[#CFDFE2] h-0.5 my-8"></div>
+    <div class="mt-8 flex flex-col gap-4">
       <FormInput
         label="Пароль"
         name="password"

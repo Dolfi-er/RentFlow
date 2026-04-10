@@ -41,7 +41,7 @@ builder.Services.AddSwaggerGen(c =>
         Title = "API Gateway",
         Version = "v1"
     });
-    
+
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token",
@@ -62,6 +62,17 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
+
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
@@ -79,12 +90,13 @@ builder.Services.AddRateLimiter(options =>
             PermitLimit = 100,
             Window = TimeSpan.FromSeconds(10),
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-            QueueLimit = 0  
+            QueueLimit = 0
         });
     });
 });
 var app = builder.Build();
 
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseRateLimiter();
 app.UseAuthorization();
@@ -114,12 +126,12 @@ string ModifySwaggerJson(string originalJson, string pathPrefix)
 {
     using var doc = JsonDocument.Parse(originalJson);
     var root = doc.RootElement;
-    
+
     using var stream = new MemoryStream();
     using var writer = new Utf8JsonWriter(stream, new JsonWriterOptions { Indented = true });
-    
+
     writer.WriteStartObject();
-    
+
     foreach (var property in root.EnumerateObject())
     {
         switch (property.Name)
@@ -127,7 +139,7 @@ string ModifySwaggerJson(string originalJson, string pathPrefix)
             case "paths":
                 writer.WritePropertyName("paths");
                 writer.WriteStartObject();
-                
+
                 foreach (var pathProp in property.Value.EnumerateObject())
                 {
                     var newPath = pathProp.Name;
@@ -135,16 +147,16 @@ string ModifySwaggerJson(string originalJson, string pathPrefix)
                     {
                         newPath = pathPrefix + pathProp.Name;
                     }
-                    
+
                     writer.WritePropertyName(newPath);
                     writer.WriteStartObject();
-                    
+
                     foreach (var opProp in pathProp.Value.EnumerateObject())
                     {
                         writer.WritePropertyName(opProp.Name);
                         writer.WriteStartObject();
-                        
-             
+
+
                         foreach (var field in opProp.Value.EnumerateObject())
                         {
                             if (field.Name == "security")
@@ -167,8 +179,8 @@ string ModifySwaggerJson(string originalJson, string pathPrefix)
                                 field.WriteTo(writer);
                             }
                         }
-                        
-     
+
+
                         if (!opProp.Value.TryGetProperty("security", out _))
                         {
                             writer.WritePropertyName("security");
@@ -180,20 +192,20 @@ string ModifySwaggerJson(string originalJson, string pathPrefix)
                             writer.WriteEndObject();
                             writer.WriteEndArray();
                         }
-                        
-                        writer.WriteEndObject(); 
+
+                        writer.WriteEndObject();
                     }
-                    
-                    writer.WriteEndObject(); 
+
+                    writer.WriteEndObject();
                 }
-                
-                writer.WriteEndObject(); 
+
+                writer.WriteEndObject();
                 break;
-                
+
             case "components":
                 writer.WritePropertyName("components");
                 writer.WriteStartObject();
-                
+
                 bool hasSecuritySchemes = false;
                 foreach (var compProp in property.Value.EnumerateObject())
                 {
@@ -202,19 +214,19 @@ string ModifySwaggerJson(string originalJson, string pathPrefix)
                         hasSecuritySchemes = true;
                         writer.WritePropertyName("securitySchemes");
                         writer.WriteStartObject();
-                        
+
                         foreach (var schemeProp in compProp.Value.EnumerateObject())
                         {
                             schemeProp.WriteTo(writer);
                         }
-                        
+
                         writer.WritePropertyName("Bearer");
                         writer.WriteStartObject();
                         writer.WriteString("type", "http");
                         writer.WriteString("scheme", "bearer");
                         writer.WriteString("bearerFormat", "JWT");
                         writer.WriteEndObject();
-                        
+
                         writer.WriteEndObject();
                     }
                     else
@@ -222,7 +234,7 @@ string ModifySwaggerJson(string originalJson, string pathPrefix)
                         compProp.WriteTo(writer);
                     }
                 }
-                
+
                 if (!hasSecuritySchemes)
                 {
                     writer.WritePropertyName("securitySchemes");
@@ -235,19 +247,19 @@ string ModifySwaggerJson(string originalJson, string pathPrefix)
                     writer.WriteEndObject();
                     writer.WriteEndObject();
                 }
-                
-                writer.WriteEndObject(); 
+
+                writer.WriteEndObject();
                 break;
-                
+
             default:
                 property.WriteTo(writer);
                 break;
         }
     }
-    
+
     writer.WriteEndObject();
     writer.Flush();
-    
+
     return Encoding.UTF8.GetString(stream.ToArray());
 }
 
@@ -285,10 +297,10 @@ async Task ProxySwagger(HttpContext context, string host, string port, string pa
             await context.Response.WriteAsync($"Ошибка {response.StatusCode} при запросе к {url}");
             return;
         }
-        
+
         var originalJson = await response.Content.ReadAsStringAsync();
         var modifiedJson = ModifySwaggerJson(originalJson, pathPrefix);
-        
+
         context.Response.ContentType = "application/json";
         await context.Response.WriteAsync(modifiedJson);
     }

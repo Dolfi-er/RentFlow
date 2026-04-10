@@ -2,9 +2,7 @@ export type TRegisterForm = {
   email: string
   password: string
   repeatPassword: string
-  surname: string
-  name: string
-  patronymic?: string
+  fullName: string
+  phoneNumber: string
   roleId: string
-  sex: string
 }
