@@ -1,5 +1,10 @@
 <script setup lang="ts">
+  import type { TRequest } from '../types'
   import RepairRequestsList from './RepairRequestsList.vue'
+
+  defineProps<{
+    requests?: TRequest[]
+  }>()
 </script>
 
 <template>
@@ -11,6 +16,12 @@
         >Все</a
       >
     </div>
-    <RepairRequestsList />
+    <div
+      v-if="!requests || requests.length === 0"
+      class="flex-1 flex justify-center items-center mb-6"
+    >
+      <p class="text-[22px] text-[#596269]">Заявок на ремонт пока нет</p>
+    </div>
+    <RepairRequestsList v-else :requests="requests" />
   </section>
 </template>

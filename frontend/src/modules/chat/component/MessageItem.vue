@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { formatISOToString } from '@/shared/utils'
+  import { formatISOToTimeAndDateString } from '@/shared/utils'
 
   defineProps<{
     id: string
@@ -27,7 +27,7 @@
         !sender ? 'text-start ml-3 ' : 'text-end mr-3 ',
       ]"
     >
-      {{ formatISOToString(datetime) }}
+      {{ formatISOToTimeAndDateString(datetime) }}
     </p>
   </li>
 </template>

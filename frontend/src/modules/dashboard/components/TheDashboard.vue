@@ -7,6 +7,20 @@
   import FacilitiesDetails from './FacilitiesDetails.vue'
   import LastTransactions from './LastTransactions.vue'
   import RepairRequests from './RepairRequests.vue'
+  import { onMounted, ref } from 'vue'
+  import type { TDashboard } from '../types'
+  import { fetchDashboard } from '../api'
+  import { formatThousands } from '@/shared/utils'
+
+  const dashboard = ref<TDashboard>()
+
+  onMounted(async () => {
+    try {
+      dashboard.value = await fetchDashboard()
+    } catch (err) {
+      console.log(err)
+    }
+  })
 </script>
 
 <template>
@@ -15,35 +29,35 @@
       <DashboardInfo
         :logo-url="allObjectsSvg"
         title="Всего объектов"
-        value="15"
-        month-ago-value="12"
+        :value="String(dashboard?.objects.currentMonth)"
+        :month-ago-value="String(dashboard?.objects.lastMonth)"
         bg-color="bg-[#072768]"
         icon-color="bg-[#B8C9E0]"
       />
       <DashboardInfo
         :logo-url="rentedObjectsSvg"
         title="Сданных"
-        value="10"
-        month-ago-value="12"
+        :value="String(dashboard?.rentedObjects.currentMonth)"
+        :month-ago-value="String(dashboard?.rentedObjects.lastMonth)"
         bg-color="bg-[#351303]"
         icon-color="bg-[#967566]"
       />
       <DashboardInfo
         :logo-url="revenueSvg"
         title="Доход"
-        value="₽300т."
-        month-ago-value="₽270т."
+        :value="formatThousands(dashboard?.revenue.currentMonth)"
+        :month-ago-value="formatThousands(dashboard?.revenue.lastMonth)"
         bg-color="bg-[#996F51]"
         icon-color="bg-[#DCC9BC]"
       />
     </div>
     <div class="flex gap-3 mt-6">
-      <RevenueSchedule class="basis-2/3" />
-      <FacilitiesDetails class="basis-1/3" />
+      <RevenueSchedule :revenue-per-month="dashboard?.revenuePerMonth" class="basis-2/3" />
+      <FacilitiesDetails class="basis-1/3" :objects-by-status="dashboard?.objectsByStatus" />
     </div>
     <div class="flex gap-3 mt-8">
-      <LastTransactions class="basis-23/50" />
-      <RepairRequests class="basis-27/50" />
+      <LastTransactions :transactions="dashboard?.lastTransactions" class="basis-23/50" />
+      <RepairRequests :requests="dashboard?.requests" class="basis-27/50" />
     </div>
   </div>
 </template>

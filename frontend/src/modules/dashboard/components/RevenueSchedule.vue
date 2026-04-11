@@ -10,42 +10,38 @@
     Tooltip,
     type TooltipItem,
   } from 'chart.js'
+  import type { TMonthRevenue } from '../types'
+
+  const props = defineProps<{
+    revenuePerMonth?: TMonthRevenue[]
+  }>()
 
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip)
 
-  const monthlyData = [30000, 32500, 33000, 41000, 32800, 33200]
+  // const monthlyData = [30000, 32500, 33000, 41000, 32800, 33200]
+  const monthlyData = computed(() => props.revenuePerMonth?.map((r) => r.revenue) ?? [])
 
-  const months = computed(() => {
-    const result: string[] = []
-    const now = new Date()
-    const monthNames = [
-      'Янв',
-      'Фев',
-      'Мар',
-      'Апр',
-      'Май',
-      'Июн',
-      'Июл',
-      'Авг',
-      'Сен',
-      'Окт',
-      'Ноя',
-      'Дек',
-    ]
-
-    for (let i = 5; i >= 0; i--) {
-      const date = new Date(now.getFullYear(), now.getMonth() - i, 1)
-      result.push(monthNames[date.getMonth()] as string)
-    }
-
-    return result
-  })
+  const monthNames = [
+    'Янв',
+    'Фев',
+    'Мар',
+    'Апр',
+    'Май',
+    'Июн',
+    'Июл',
+    'Авг',
+    'Сен',
+    'Окт',
+    'Ноя',
+    'Дек',
+  ]
+  const months = computed(() => props.revenuePerMonth?.map((r) => monthNames[r.month - 1]) ?? [])
 
   const chartData = computed(() => ({
     labels: months.value,
     datasets: [
       {
-        data: monthlyData,
+        data: monthlyData.value,
         backgroundColor: '#5079B2',
         borderRadius: 8,
         borderSkipped: false,
@@ -107,7 +103,6 @@
             const num = typeof value === 'number' ? value : parseInt(value, 10)
             return `₽${num.toLocaleString('ru-RU')}`
           },
-          stepSize: 10000,
         },
         border: {
           display: false,
@@ -120,8 +115,14 @@
 <template>
   <section class="bg-white rounded-[27px] py-6.5 px-6 h-80.5 flex flex-col gap-5">
     <h3 class="text-[20px]">График доходов</h3>
-    <div class="flex-1">
-      <Bar :data="chartData" :options="chartOptions" />
+    <div class="flex-1 flex items-center justify-center">
+      <p
+        v-if="!revenuePerMonth || revenuePerMonth.length === 0"
+        class="text-[22px] text-[#596269] mb-6"
+      >
+        Доходов пока нет
+      </p>
+      <Bar v-else :data="chartData" :options="chartOptions" />
     </div>
   </section>
 </template>

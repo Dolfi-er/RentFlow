@@ -2,8 +2,8 @@
   defineProps<{
     logoUrl: string
     title: string
-    value: string
-    monthAgoValue: string
+    value?: string
+    monthAgoValue?: string
     bgColor: string
     iconColor: string
   }>()

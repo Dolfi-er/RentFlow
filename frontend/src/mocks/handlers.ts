@@ -154,4 +154,99 @@ export const handlers = [
       id: crypto.randomUUID(),
     })
   }),
+
+  http.get(`${API_URL}/dashboard`, () => {
+    return HttpResponse.json({
+      objects: {
+        currentMonth: 15,
+        lastMonth: 12,
+      },
+      rentedObjects: {
+        currentMonth: 10,
+        lastMonth: 12,
+      },
+      revenue: {
+        currentMonth: 270000,
+        lastMonth: 300000,
+      },
+      revenuePerMonth: [
+        {
+          month: 11,
+          revenue: 30000,
+        },
+        {
+          month: 12,
+          revenue: 14000,
+        },
+        {
+          month: 1,
+          revenue: 0,
+        },
+        {
+          month: 2,
+          revenue: 80000,
+        },
+        {
+          month: 3,
+          revenue: 65000,
+        },
+        {
+          month: 4,
+          revenue: 72000,
+        },
+      ],
+      objectsByStatus: [
+        {
+          status: 'Сдаётся',
+          count: 5,
+        },
+        {
+          status: 'Не сдаётся',
+          count: 3,
+        },
+      ],
+      lastTransactions: [
+        {
+          id: '952053dc-07cb-4fed-8a76-8fc7b0d6e088',
+          imageUrl:
+            'https://www.shutterstock.com/image-photo/cozy-historical-home-florida-on-600nw-2709891397.jpg',
+          address: '123 Maple Avenue SpringField',
+          datetime: '2024-09-12T09:29',
+          price: 30000,
+        },
+        {
+          id: 'b4d7144c-69ec-49ea-a321-b5159f5fb859',
+          imageUrl:
+            'https://www.shutterstock.com/image-photo/cozy-historical-home-florida-on-600nw-2709891397.jpg',
+          address:
+            '123 Maple Avenue SpringField 23 Maple Avenue SpringField 23 Maple Avenue SpringField',
+          datetime: '2024-09-12T09:29',
+          price: 20,
+        },
+      ],
+      requests: [
+        {
+          id: '28ba1d5b-3996-4360-98bb-d9929c19b039',
+          category: 'Водопровод',
+          address: '123 Maple Avenue SpringField',
+          name: 'Течёт кухонный кран',
+          status: 'Открыта',
+        },
+        {
+          id: '755149bf-ce7d-4525-bca7-aee767bfd034',
+          category: 'Электричество',
+          address: 'улица Ленина, д.1, кв.3 улица Ленина, д.1, кв.3',
+          name: 'Искрит розетка',
+          status: 'Назначен мастер',
+        },
+        {
+          id: '755149bf-ce7d-4525-bca7-aee767bfd034',
+          category: 'Кондиционер',
+          address: 'улица Ленина, д.1, кв.3',
+          name: 'Кондиционер капает Кондиционер капает Кондиционер капаетКондиционер капает',
+          status: 'Закрыт',
+        },
+      ],
+    })
+  }),
 ]
