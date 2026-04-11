@@ -7,6 +7,7 @@ import NewFacilityPage from '@/pages/NewFacilityPage.vue'
 import FacilityPage from '@/pages/FacilityPage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { FacilityChats } from '@/modules/chat/component'
+import { FacilityDocuments } from '@/modules/documents/components'
 
 const routes = [
   {
@@ -49,6 +50,11 @@ const routes = [
         path: 'chats',
         component: FacilityChats,
         name: 'facility-chats',
+      },
+      {
+        path: 'docs',
+        component: FacilityDocuments,
+        name: 'facility-docs',
       },
     ],
   },

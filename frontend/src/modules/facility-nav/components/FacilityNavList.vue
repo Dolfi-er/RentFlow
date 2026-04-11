@@ -33,7 +33,7 @@
     />
     <FacilityNavItem
       :icon-url="docsSvg"
-      router-name=""
+      router-name="facility-docs"
       :current-router-name="currentRouterName"
       class="bg-[#5079B2]"
     />

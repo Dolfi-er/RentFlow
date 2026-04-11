@@ -249,4 +249,14 @@ export const handlers = [
       ],
     })
   }),
+  http.get<{ id: string }>(`${API_URL}/facilities/:id/documents`, () => {
+    return HttpResponse.json([
+      {
+        id: '0976b7f3-3717-4f8c-aa7f-74edf79d8925',
+        fileUrl: '',
+        name: 'Договор',
+        description: 'Договоре об аренде от 11.04.2026г',
+      },
+    ])
+  }),
 ]
