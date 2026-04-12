@@ -23,3 +23,13 @@ export function formatISOToDateAndTimeString(ISOString: string): string {
 
   return `${day} ${month} ${year}, ${hours}:${minutes}`
 }
+
+export function formatISODate(ISOString: string): string {
+  const date = new Date(ISOString)
+
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = months[date.getMonth()]
+  const year = date.getFullYear()
+
+  return `${day} ${month} ${year}г.`
+}

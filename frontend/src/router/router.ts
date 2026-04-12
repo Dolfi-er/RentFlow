@@ -8,6 +8,7 @@ import FacilityPage from '@/pages/FacilityPage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { FacilityChats } from '@/modules/chat/component'
 import { FacilityDocuments } from '@/modules/documents/components'
+import { FacilityTransactions } from '@/modules/transactions/components'
 
 const routes = [
   {
@@ -55,6 +56,11 @@ const routes = [
         path: 'docs',
         component: FacilityDocuments,
         name: 'facility-docs',
+      },
+      {
+        path: 'transactions',
+        component: FacilityTransactions,
+        name: 'facility-transactions',
       },
     ],
   },

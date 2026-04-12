@@ -262,4 +262,25 @@ export const handlers = [
   http.post<{ id: string }>(`${API_URL}/facilities/:id/documents`, () => {
     return HttpResponse.json({}, { status: 201 })
   }),
+  http.get<{ id: string }>(`${API_URL}/facilities/:id/transactions`, () => {
+    return HttpResponse.json([
+      {
+        id: '0976b7f3-3717-4f8c-aa7f-74edf79d8925',
+        name: 'ЖКХ Март 2026г',
+        date: '2026-04-15',
+        status: 'Оплачен',
+        price: 4000,
+      },
+      {
+        id: '0976b7f3-3717-4f8c-aa7f-74edf78d8925',
+        name: 'За квартиру Март 2026г',
+        date: '2026-03-31',
+        status: 'Просрочено',
+        price: 62000,
+      },
+    ])
+  }),
+  http.post<{ id: string }>(`${API_URL}/facilities/:id/transactions`, () => {
+    return HttpResponse.json({}, { status: 201 })
+  }),
 ]

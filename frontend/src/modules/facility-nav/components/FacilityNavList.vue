@@ -4,6 +4,7 @@
   import chatSvg from '@/assets/svg/facility-nav/chat.svg'
   import requestSvg from '@/assets/svg/facility-nav/request.svg'
   import docsSvg from '@/assets/svg/facility-nav/docs.svg'
+  import transactionsSvg from '@/assets/svg/facility-nav/transactions.svg'
   import { useRoute } from 'vue-router'
   import { computed } from 'vue'
 
@@ -36,6 +37,12 @@
       router-name="facility-docs"
       :current-router-name="currentRouterName"
       class="bg-[#5079B2]"
+    />
+    <FacilityNavItem
+      :icon-url="transactionsSvg"
+      router-name="facility-transactions"
+      :current-router-name="currentRouterName"
+      class="bg-[#A1A1A1]"
     />
   </ul>
 </template>
