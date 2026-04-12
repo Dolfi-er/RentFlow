@@ -17,6 +17,7 @@ public class FacilityRepository : IFacilityRepository
     {
         return await _context.Facilities.Include(f => f.Type)
                                         .Include(f => f.Applications)
+                                        .Include(f => f.Address)
                                         .FirstOrDefaultAsync(a => a.Id == facilityId);
     }
 
@@ -24,6 +25,7 @@ public class FacilityRepository : IFacilityRepository
     {
         IQueryable<FacilityEntity> query = _context.Facilities.Include(f => f.Type)
                                                               .Include(f => f.Applications)
+                                                              .Include(f => f.Address)
                                                               .AsNoTracking()
                                                               .AsQueryable();
 

@@ -1,3 +1,4 @@
+using System.Text;
 using FacilityService.DTOs.FacilityDTOs;
 using FacilityService.Models.Entities;
 
@@ -15,11 +16,19 @@ public static class FacilityExtensions
             Description = facilityEntity.Description,
             RentPrice = facilityEntity.Price,
             OwnerId = facilityEntity.OwnerId,
+
+            Town = facilityEntity.Address?.Town ?? "Город",
+            Street = facilityEntity.Address?.Street ?? "Улица",
+            HouseNumber = facilityEntity.Address?.HouseNumber ?? 0,
+            Floor = facilityEntity.Address?.Floor ?? 0,
+            Apartment = facilityEntity.Address?.Apartment ?? 0,
+            Entrance = facilityEntity.Address?.Entrance ?? 0,
+
             Applications = facilityEntity.Applications.Select(a => a.ToDTO(baseFileURL)).ToList(),
         };
     }
 
-    public static FacilityEntity ToEntity(this PostFacilityDTO postFacilityDTO, Guid ownerId)
+    public static FacilityEntity ToEntityFacility(this PostFacilityDTO postFacilityDTO, Guid ownerId)
     {
         return new FacilityEntity()
         {
@@ -28,6 +37,19 @@ public static class FacilityExtensions
             Description = postFacilityDTO.Description,
             Price = postFacilityDTO.RentPrice,
             OwnerId = ownerId,
+        };
+    }
+
+    public static AddressEntity ToEntityAddress(this PostFacilityDTO postFacilityDTO)
+    {
+        return new AddressEntity()
+        {
+            Town = postFacilityDTO.Town,
+            Street = postFacilityDTO.Street,
+            HouseNumber = postFacilityDTO.HouseNumber,
+            Floor = postFacilityDTO.Floor,
+            Apartment = postFacilityDTO.Apartment,
+            Entrance = postFacilityDTO.Apartment,
         };
     }
 

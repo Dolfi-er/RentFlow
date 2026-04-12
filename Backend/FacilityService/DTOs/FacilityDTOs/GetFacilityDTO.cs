@@ -11,5 +11,12 @@ public class GetFacilityDTO
     public required int RentPrice { get; set; }
     public required Guid OwnerId { get; set; }
     
+    public required string Town { get; set; }
+    public required string Street { get; set; }
+    public required int HouseNumber { get; set; }
+    public required int Floor { get; set; }
+    public required int Apartment { get; set; }
+    public required int Entrance { get; set; }
+    
     public List<GetApplicationDTO> Applications { get; set; } = new List<GetApplicationDTO>();
 }

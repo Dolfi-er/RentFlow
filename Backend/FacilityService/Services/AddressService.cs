@@ -28,16 +28,21 @@ public class AddressService : IAddressService
 
     public async Task<Guid> CreateAsync(PostAddressDTO postAddressDTO)
     {
-        return await _addressRepository.CreateAsync(postAddressDTO.ToEntity());
+        Guid id = await _addressRepository.CreateAsync(postAddressDTO.ToEntity());
+        await _addressRepository.SaveChangesAsync();
+        return id;
     }
 
     public async Task<bool> UpdateAsync(Guid updateAddressId, PutAddressDTO putAddressDTO)
     {
-        return await _addressRepository.UpdateAsync(putAddressDTO.ToEntity(updateAddressId));
+        bool isSuccessful = await _addressRepository.UpdateAsync(putAddressDTO.ToEntity(updateAddressId));
+        if (isSuccessful) await _addressRepository.SaveChangesAsync();
+        return isSuccessful;
     }
 
     public async Task RemoveAsync(Guid addressId)
     {
         await _addressRepository.RemoveAsync(addressId);
+        await _addressRepository.SaveChangesAsync();
     }
 }

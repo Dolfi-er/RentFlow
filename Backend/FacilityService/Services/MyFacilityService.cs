@@ -41,8 +41,12 @@ public class MyFacilityService : IMyFacilityService
     public async Task<Guid> CreateAsync(PostFacilityDTO postFacilityDTO, Guid ownerId)
     {
         Guid facilityId = Guid.NewGuid();
-        FacilityEntity facilityEntity = postFacilityDTO.ToEntity(ownerId);
+        FacilityEntity facilityEntity = postFacilityDTO.ToEntityFacility(ownerId);
         facilityEntity.Id = facilityId;
+
+        AddressEntity addressEntity = postFacilityDTO.ToEntityAddress();
+        addressEntity.Id = facilityId;
+        facilityEntity.Address = addressEntity;
 
         List<ApplicationEntity> applicationEntities = await CreateApplications(facilityEntity.Id, postFacilityDTO.Files);
         facilityEntity.Applications.AddRange(applicationEntities);

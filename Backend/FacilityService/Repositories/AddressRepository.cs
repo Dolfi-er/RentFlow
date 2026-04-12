@@ -26,7 +26,6 @@ public class AddressRepository : IAddressRepository
     public async Task<Guid> CreateAsync(AddressEntity addressEntity)
     {
         await _context.Addresses.AddAsync(addressEntity);
-        await _context.SaveChangesAsync();
         return addressEntity.Id;
     }
 
@@ -36,7 +35,6 @@ public class AddressRepository : IAddressRepository
         if (addressEntityFound == null) return false;
 
         _context.Addresses.Entry(addressEntityFound).CurrentValues.SetValues(addressEntity);
-        await _context.SaveChangesAsync();
         return true;
     }
 
@@ -47,6 +45,10 @@ public class AddressRepository : IAddressRepository
         if (addressEntity is null) return;
 
         _context.Addresses.Remove(addressEntity);
-        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> SaveChangesAsync()
+    {
+        return await _context.SaveChangesAsync() > 0;
     }
 }

@@ -19,5 +19,10 @@ public class FacilityConfiguration : IEntityTypeConfiguration<FacilityEntity>
                .WithOne(r => r.Facility)
                .HasForeignKey(r => r.FacilityId)
                .OnDelete(DeleteBehavior.Cascade);
+                
+        builder.HasOne(f => f.Address)
+               .WithOne(a => a.Facility)
+               .HasForeignKey<FacilityEntity>(f => f.Id)
+               .OnDelete(DeleteBehavior.Cascade);
     }
 }

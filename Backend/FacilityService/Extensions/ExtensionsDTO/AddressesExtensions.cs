@@ -15,7 +15,7 @@ public static class AddressesExtensions
             HouseNumber = addressEntity.HouseNumber,
             Floor = addressEntity.Floor,
             Apartment = addressEntity.Apartment,
-            Entrance = addressEntity.Apartment,
+            Entrance = addressEntity.Entrance,
         };
     }
 
@@ -28,7 +28,7 @@ public static class AddressesExtensions
             HouseNumber = postAddressDTO.HouseNumber,
             Floor = postAddressDTO.Floor,
             Apartment = postAddressDTO.Apartment,
-            Entrance = postAddressDTO.Apartment,
+            Entrance = postAddressDTO.Entrance,
         };
     }
 
@@ -42,7 +42,7 @@ public static class AddressesExtensions
             HouseNumber = putAddressDTO.HouseNumber,
             Floor = putAddressDTO.Floor,
             Apartment = putAddressDTO.Apartment,
-            Entrance = putAddressDTO.Apartment,
+            Entrance = putAddressDTO.Entrance,
         };
     }
 }
