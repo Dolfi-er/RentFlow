@@ -5,6 +5,8 @@
   import type { TDocument } from '../types'
   import { fecthDocuments } from '../api'
   import { useRoute } from 'vue-router'
+  import TheModal from '@/shared/components/TheModal.vue'
+  import DocumentModal from './DocumentModal.vue'
 
   const documents = ref<TDocument[]>([])
   const route = useRoute()
@@ -15,6 +17,15 @@
       console.log(err)
     }
   })
+
+  const isModalOpen = ref<boolean>(false)
+  const openModal = () => {
+    isModalOpen.value = true
+  }
+
+  const closeModal = () => {
+    isModalOpen.value = false
+  }
 </script>
 
 <template>
@@ -25,9 +36,14 @@
     </div>
     <DocumentList v-else :documents="documents" />
     <button
+      @click="openModal"
+      v-show="!isModalOpen"
       class="size-15 bg-[#072768] rounded-full flex justify-center items-center cursor-pointer fixed bottom-15 right-15"
     >
       <img src="@/assets/svg/docs/docs.svg" alt="Docs logo" />
     </button>
+    <TheModal :is-open="isModalOpen">
+      <DocumentModal @close="closeModal" />
+    </TheModal>
   </section>
 </template>

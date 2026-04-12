@@ -259,4 +259,7 @@ export const handlers = [
       },
     ])
   }),
+  http.post<{ id: string }>(`${API_URL}/facilities/:id/documents`, () => {
+    return HttpResponse.json({}, { status: 201 })
+  }),
 ]
