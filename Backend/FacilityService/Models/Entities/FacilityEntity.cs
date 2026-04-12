@@ -8,6 +8,7 @@ public class FacilityEntity
     public string Description { get; set; } = string.Empty;
     public required int Price { get; set; }
     public Guid OwnerId { get; set; }
+    public Guid? RenterId { get; set; }
 
     public List<ApplicationEntity> Applications { get; set; } = new List<ApplicationEntity>();
     public AddressEntity? Address { get; set; }

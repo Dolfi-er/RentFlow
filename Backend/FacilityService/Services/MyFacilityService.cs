@@ -110,4 +110,23 @@ public class MyFacilityService : IMyFacilityService
         await _facilityRepository.RemoveAsync(facilityId);
         await _facilityRepository.SaveChangesAsync();
     }
+
+    public async Task<bool> AppointRenter(Guid facilityId, Guid renterId)
+    {
+        FacilityEntity? facilityEntity = await _facilityRepository.GetByIdAsync(facilityId);
+        if (facilityEntity is null) return false;
+
+        facilityEntity.RenterId = renterId;
+        await _facilityRepository.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task RemoveRenter(Guid facilityId)
+    {
+        FacilityEntity? facilityEntity = await _facilityRepository.GetByIdAsync(facilityId);
+        if (facilityEntity is null) return;
+
+        facilityEntity.RenterId = null;
+        await _facilityRepository.SaveChangesAsync();
+    }
 }

@@ -16,6 +16,7 @@ public static class FacilityExtensions
             Description = facilityEntity.Description,
             RentPrice = facilityEntity.Price,
             OwnerId = facilityEntity.OwnerId,
+            RentStatus = facilityEntity.RenterId is null ? "Не сдаётся" : "Сдаётся",
 
             Town = facilityEntity.Address?.Town ?? "Город",
             Street = facilityEntity.Address?.Street ?? "Улица",

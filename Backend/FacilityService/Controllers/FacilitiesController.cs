@@ -72,4 +72,24 @@ public class FacilitiesController : ControllerBase
         await _facilityService.RemoveAsync(id);
         return NoContent();
     }
+
+    [HttpPost("{facilityId}/appoint-renter/{renterId}")]
+    public async Task<IActionResult> AppointRenterAsync([FromRoute] Guid facilityId, [FromRoute] Guid renterId)
+    {
+        if (_tokenAccessor.GetUserId() == null) return Unauthorized();
+
+        bool isSuccessful = await _facilityService.AppointRenter(facilityId, renterId);
+        if (!isSuccessful) return NotFound();
+
+        return NoContent();
+    }
+
+    [HttpPost("{facilityId}/remove-renter")]
+    public async Task<IActionResult> RemoveRenterAsync([FromRoute] Guid facilityId)
+    {
+        if (_tokenAccessor.GetUserId() == null) return Unauthorized();
+
+        await _facilityService.RemoveRenter(facilityId);
+        return NoContent();
+    }
 }
