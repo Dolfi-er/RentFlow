@@ -80,7 +80,7 @@ public class AuthorizationService : IAuthorizationService
     public async Task<Result<Guid?>> RegistrUser(RegistrDTO registrDTO)
     {
         List<User> users = await  _userRepository.GetAllUsers();
-        if (users.Where(u => u.Login == registrDTO.Login).Where(u => u.Email == registrDTO.Email).Count() == 0)
+        if (!users.Any(u => u.Login == registrDTO.Login || u.Email == registrDTO.Email))
         {
             var result = await _validator.ValidateAsync(registrDTO);
             if (!result.IsValid)
