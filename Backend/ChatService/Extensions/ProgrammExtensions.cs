@@ -2,6 +2,7 @@ using System.Text.Json;
 using Backend.Models;
 using Backend.Repositories;
 using Backend.Services;
+using Backend.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
@@ -20,32 +21,51 @@ public static class ProgrammExtensions
                 options.JsonSerializerOptions.WriteIndented = false;
                 options.JsonSerializerOptions.Converters.Add(new ObjectIdConverter());
             });
-        var dbHost = configuration["DB_HOST"];
-        var dbPort = configuration["DB_PORT"];
-        var dbName = configuration["DB_NAME"];
-        var dbUser = configuration["DB_USER"];
-        var dbPassword = configuration["DB_PASSWORD"];
-        var connectionString = $"Host={dbHost};Port={dbPort};Database={dbName};Username={dbUser};Password={dbPassword}";
+
+        var connectionString =
+            $"Host={configuration["DB_HOST"]};Port={configuration["DB_PORT"]};Database={configuration["DB_NAME"]};Username={configuration["DB_USER"]};Password={configuration["DB_PASSWORD"]}";
+
+        services.AddDbContext<Context>(options =>
+            options.UseNpgsql(connectionString));
+
+        services.AddSingleton<IMongoClient>(_ =>
+            new MongoClient(Environment.GetEnvironmentVariable("MONGO_CONNECTION")!));
+
+        services.AddSingleton<MongoContext>();
+
+        services.AddSignalR();
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(_ => true);
+            });
+        });
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<ITokenAccessor, TokenAccessor>();
+
+        services.AddScoped<IChatRepository, ChatRepository>();
+        services.AddScoped<IChatService, Chatservice>();
+
+        services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IMessageService, MessageService>();
 
         services.AddScoped<IMessageStatusRepository, MessageStatusRepository>();
         services.AddScoped<IMessageStatusService, MessageStatusService>();
-        services.AddHttpContextAccessor();
-        services.AddScoped<ITokenAccessor, TokenAccessor>();
+
+        services.AddScoped<IApplicationRepository, ApplicationRepository>();
+        services.AddScoped<IApplicationService, ApplicationService>();
+
         services.AddScoped<IFileRepository, FileRepository>();
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IContentTypeService, ContentTypeService>();
-        services.AddScoped<IChatRepository, ChatRepository>();
-        services.AddScoped<IChatService, Chatservice>();
-        services.AddScoped<IApplicationRepository, ApplicationRepository>();
-        services.AddScoped<IApplicationService, ApplicationService>();
-        services.AddScoped<IMessageRepository, MessageRepository>();
-        services.AddScoped<IMessageService, MessageService>();
-        services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
-        services.AddSingleton<IMongoClient>(sp =>
-        {
-            return new MongoClient(Environment.GetEnvironmentVariable("MONGO_CONNECTION")!);
-        });
-        services.AddSingleton<MongoContext>();
+
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
@@ -71,14 +91,14 @@ public static class ProgrammExtensions
                         Reference = new OpenApiReference
                         {
                             Type = ReferenceType.SecurityScheme,
-                            Id = "ChatHeader" 
-                        },
-                        In = ParameterLocation.Header
+                            Id = "ChatHeader"
+                        }
                     },
                     Array.Empty<string>()
                 }
             });
         });
+
         return services;
     }
 
@@ -87,19 +107,40 @@ public static class ProgrammExtensions
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", " v1");
-            c.RoutePrefix = string.Empty; 
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            c.RoutePrefix = string.Empty;
         });
 
         app.ApplyMigrations();
+
+        app.UseRouting();
+
+
+        app.UseCors("AllowAll");
+
         app.UseHttpsRedirection();
+
+        app.Use(async (context, next) =>
+        {
+            if (context.Request.Path.StartsWithSegments("/chatHub"))
+            {
+                var userId = context.Request.Headers["X-User-Id"].FirstOrDefault();
+
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    context.Items["UserId"] = userId;
+                }
+            }
+
+            await next();
+        });
+
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
-        app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+
+        app.MapHub<ChatHub>("/chatHub");
 
         return app;
     }

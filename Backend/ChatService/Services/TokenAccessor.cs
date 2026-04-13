@@ -12,10 +12,16 @@ public class TokenAccessor : ITokenAccessor
 
     public Guid? GetUserId()
     {
-        var header = _httpContextAccessor.HttpContext?
-                .Request.Headers["X-User-Id"]
-                .FirstOrDefault();
+         var context = _httpContextAccessor.HttpContext;
 
-        return Guid.TryParse(header, out var id) ? id : null; 
+        var header = context?.Request.Headers["X-User-Id"].FirstOrDefault();
+        if (Guid.TryParse(header, out var id))
+            return id;
+
+        var query = context?.Request.Query["userId"].FirstOrDefault();
+        if (Guid.TryParse(query, out id))
+            return id;
+
+        return null;
     }
 }

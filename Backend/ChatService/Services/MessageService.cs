@@ -1,8 +1,10 @@
 using Backend.DTOs;
 using Backend.Extensions;
+using Backend.Hubs;
 using Backend.Models.Entities;
 using Backend.Repositories;
 using Backend.Share;
+using Microsoft.AspNetCore.SignalR;
 using MongoDB.Bson;
 
 namespace Backend.Services;
@@ -13,12 +15,14 @@ public class MessageService : IMessageService
     private readonly IMessageRepository _messageRepository;
     private readonly IFileService _fileService;
     private readonly IContentTypeService _contentTypeService;
-    public MessageService(IMessageRepository messageRepository, IFileService fileService, IContentTypeService contentTypeService, ITokenAccessor tokenAccessor)
+    private readonly IHubContext<ChatHub> _hub;
+    public MessageService(IMessageRepository messageRepository, IFileService fileService, IContentTypeService contentTypeService, ITokenAccessor tokenAccessor, IHubContext<ChatHub> hub)
     {
         _messageRepository = messageRepository;
         _fileService = fileService;
         _contentTypeService = contentTypeService;
         _tokenAccessor = tokenAccessor;
+        _hub = hub;
     }
 
     public async Task<Result<Guid>> CreateMessage(PostMessage postMessage)
@@ -28,6 +32,8 @@ public class MessageService : IMessageService
         Message message = postMessage.ToEntity(userId.Value);
         List<Application> applications =await CreateApplications(message.Id, postMessage.Files);
         Guid id = await _messageRepository.CreateMessage(message, applications);
+        var dto =message.ToDTO(userId.Value);
+        await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", dto);
         return Result<Guid>.Success(id);
     }
 
@@ -37,6 +43,7 @@ public class MessageService : IMessageService
         if (message is null) return Result<bool>.Error(ErrorCode.MessageNotFound);
         message.DeleteMessage();
         await _messageRepository.UpdateChanges(message);
+        await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("MessageDeleted", messageId);
         return Result<bool>.Success(true)!;
     }
 
@@ -46,6 +53,12 @@ public class MessageService : IMessageService
         if (message is null) return Result<bool>.Error(ErrorCode.MessageNotFound);
         message.Update(putMessage.Text);
         await _messageRepository.UpdateChanges(message);
+        await _hub.Clients.Group(message.ChatId.ToString())
+            .SendAsync("MessageUpdated", new
+            {
+                message.Id,
+                message.Text
+            });
         return Result<bool>.Success(true);
     }
 

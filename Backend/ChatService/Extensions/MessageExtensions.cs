@@ -12,7 +12,7 @@ public static class MessageExtensions
         {
             Id =Guid.NewGuid(),
             SenderId =userId,
-            StatusId =postMessage.StatusId,
+            StatusId =Guid.Parse("35fbeb05-a68a-4b9e-9cf1-014e711e1ae4"),
             ChatId =postMessage.ChatId,
             Text =postMessage.Text,
             SendDate = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc),
@@ -28,5 +28,17 @@ public static class MessageExtensions
     public static void Update(this Message message, string text)
     {
         message.Text = text ?? message.Text;
+    }
+    public static GetMessage ToDTO(this Message message, Guid userId)
+    {
+        return new GetMessage()
+        {
+            Id =message.Id,
+            ChatId =message.ChatId,
+            Text =message.Text,
+            SenderId =message.SenderId,
+            SendDate =message.SendDate,
+            IsSender =message.SenderId ==userId
+        };
     }
 }
