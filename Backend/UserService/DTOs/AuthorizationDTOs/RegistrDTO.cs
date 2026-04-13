@@ -11,7 +11,5 @@ public record RegistrDTO
     public string Surname { get; set; } = null!;
     public string Patronymic { get; set; } = null!;
     public string PhoneNumber { get; set;} = null!;
-    public DateOnly Birthday { get; set; } 
-    public string Sex { get; set; } = null!;
-    public string CardNumber { get; set; } = null!;
+    public string? CardNumber { get; set; }
 }

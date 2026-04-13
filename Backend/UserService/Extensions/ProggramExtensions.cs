@@ -42,6 +42,7 @@ public static class ProgrammExtensions
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IRefreshTokenService, RefreshTokenService>();
         services.AddScoped<AbstractValidator<RegistrDTO>, UserValidator>();
+        services.AddScoped<AbstractValidator<PutUserInfo>, UserInfoValidator>();
         services.AddScoped<IRecoveryCodeRepository, RecoveryCodeRepository>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IPasswordRecoveryService, PasswordRecoveryService>();

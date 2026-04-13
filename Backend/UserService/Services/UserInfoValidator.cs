@@ -5,30 +5,11 @@ using Backend.Share;
 using FluentValidation;
 
 namespace Backend.Services;
-public class UserValidator : AbstractValidator<RegistrDTO>
+public class UserInfoValidator : AbstractValidator<PutUserInfo>
 {
-    public UserValidator()
+    public UserInfoValidator()
     {
         ClassLevelCascadeMode =CascadeMode.Stop;
-
-        RuleFor(dto => dto.Login)
-            .Cascade(CascadeMode.Stop)
-            .NotEmpty().WithErrorCode(ErrorCode.EmptyLogin.ToString())
-            .Matches(@"^[a-zA-Z0-9](?:[a-zA-Z0-9_-]{1,18}[a-zA-Z0-9])?$").WithErrorCode(ErrorCode.LoginError.ToString());
-
-        RuleFor(dto => dto.Email)
-            .Cascade(CascadeMode.Stop)
-            .NotEmpty().WithErrorCode(ErrorCode.EmptyEmail.ToString())
-            .Matches(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$").WithErrorCode(ErrorCode.EmailError.ToString());
-
-        RuleFor(dto => dto.Password)
-            .Cascade(CascadeMode.Stop)
-            .NotEmpty().WithErrorCode(ErrorCode.EmptyPassword.ToString())
-            .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$").WithErrorCode(ErrorCode.PasswordError.ToString());
-
-        RuleFor(dto => dto)
-            .Cascade(CascadeMode.Stop)
-            .Must(dto => dto.Password == dto.RepeatPassword).WithErrorCode(ErrorCode.PasswordMatch.ToString());
 
         RuleFor(dto => dto.Name)
             .Cascade(CascadeMode.Stop)

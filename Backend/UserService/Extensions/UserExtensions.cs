@@ -16,8 +16,6 @@ public static class UserExtensions
             Surname = user.UserInfoEntity!.Surname,
             Patronymic = user.UserInfoEntity!.Patronymic,
             PhoneNumber = user.UserInfoEntity!.PhoneNumber,
-            Birthday = user.UserInfoEntity!.Birthday,
-            Sex = user.UserInfoEntity!.Sex,
             CardNumber = user.UserInfoEntity!.CardNumber
         };
     }
@@ -28,8 +26,6 @@ public static class UserExtensions
         userInfo.Surname = putUserInfo.Surname ?? userInfo.Surname;
         userInfo.Patronymic = putUserInfo.Patronymic ?? userInfo.Patronymic;
         userInfo.PhoneNumber = putUserInfo.PhoneNumber ?? userInfo.PhoneNumber;
-        userInfo.Birthday = putUserInfo.Birthday ?? userInfo.Birthday;
-        userInfo.Sex = putUserInfo.Sex ?? userInfo.Sex;
         userInfo.CardNumber = putUserInfo.CardNumber ?? userInfo.CardNumber;
     }
 

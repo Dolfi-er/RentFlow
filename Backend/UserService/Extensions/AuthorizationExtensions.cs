@@ -26,9 +26,7 @@ public static class AuthorizationExtension
             Surname = dto.Surname,
             Patronymic = dto.Patronymic,
             PhoneNumber = dto.PhoneNumber,
-            Birthday = dto.Birthday,
-            CardNumber = dto.CardNumber,
-            Sex = dto.Sex
+            CardNumber = dto.CardNumber
         };
     }
 
