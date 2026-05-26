@@ -10,6 +10,18 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .WithOrigins("http://localhost/") 
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
@@ -319,6 +331,8 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger-proxy/subscriptions/swagger.json", "Subscriptions Service");
     c.RoutePrefix = "";
 });
+
+app.UseCors();
 
 app.MapReverseProxy().RequireRateLimiting("IpFixedWindow");
 
